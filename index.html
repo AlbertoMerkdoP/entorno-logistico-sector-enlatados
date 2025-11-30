@@ -231,18 +231,32 @@
             </div>
         </section>
 
-        <!-- 1. PRODUCTO -->
+        <!-- 1. PRODUCTO (TEXTO ACTUALIZADO) -->
         <section class="scroll-section" id="sec-1">
             <div class="content-panel panel-left" style="--accent-color: #32d74b;">
                 <span class="text-xs font-mono text-green-400 tracking-widest uppercase mb-2 block">Caracterización</span>
-                <h2 class="text-4xl font-bold text-white mb-4">Transparencia Total</h2>
+                <h2 class="text-4xl font-bold text-white mb-2">Transparencia Total</h2>
+                <p class="text-xs text-green-400 font-mono mb-4">EL PRODUCTO DEFINE LA LOGÍSTICA</p>
                 <div class="hud-line text-green-400"></div>
-                <p class="mb-4">
-                    La logística inicia con la biología: <strong>Skipjack</strong> para volumen masivo y <strong>Yellowfin</strong> para premium. 
+                
+                <p class="mb-4 text-sm leading-relaxed">
+                    Combina biología e ingeniería térmica. El envase de hojalata protege especies clave como el <strong>Skipjack</strong> (rotación masiva) y el <strong>Yellowfin</strong> (calidad) sin necesidad de refrigeración.
                 </p>
+
+                <div class="bg-white/5 rounded p-3 mb-4 border border-white/10">
+                    <h3 class="text-[10px] font-bold text-white mb-2 uppercase tracking-wider opacity-70">Propiedades Fisicoquímicas</h3>
+                    <ul class="text-xs text-gray-300 space-y-1">
+                        <li class="flex justify-between"><span>pH Natural:</span> <strong class="text-white">5.8–6.3</strong></li>
+                        <li class="flex justify-between"><span>Proteína:</span> <strong class="text-white">20–30%</strong></li>
+                        <li class="flex justify-between"><span>Riesgo Crítico:</span> <strong class="text-red-400">Histamina</strong></li>
+                    </ul>
+                </div>
+
                 <div class="kpi-grid">
-                    <div class="kpi-item"><span>Proteína</span><span>20-30%</span></div>
-                    <div class="kpi-item"><span>Vida Útil</span><span>5 Años</span></div>
+                    <div class="kpi-item"><span>Vida Útil</span><span>2-5 Años</span></div>
+                    <div class="kpi-item"><span>Temp. Ideal</span><span>10-30 °C</span></div>
+                    <div class="kpi-item"><span>Humedad</span><span>< 75%</span></div>
+                    <div class="kpi-item"><span>Envase</span><span>Hojalata</span></div>
                 </div>
             </div>
         </section>
@@ -354,7 +368,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // --- DATOS RIESGOS (TEXTO EXACTO DEL PDF) ---
+        // --- DATOS RIESGOS (TEXTO EXACTO) ---
         const riskData = [
             { id: 1, name: "Escasez de materia prima (pescado, carne, vegetales)", desc: "Reducción de capacidad productiva y aumento de costos.", prob: 3, imp: 4, plan: "Contratos múltiples, proveedores internacionales, compras anticipadas." },
             { id: 2, name: "Fenómenos climáticos (El Niño / La Niña)", desc: "Reducción de pesca y afectación a cultivos.", prob: 4, imp: 4, plan: "Inventarios estratégicos, diversificación geográfica, pronósticos IDEAM/FAO." },
@@ -504,7 +518,6 @@
         const labelMat = new THREE.MeshStandardMaterial({ map: createHoloLabel(), transparent: true, side: THREE.DoubleSide, roughness: 0.4, metalness: 0.2 });
         const labelMesh = new THREE.Mesh(labelGeo, labelMat);
         
-        // Use initial position attribute as reference to avoid accumulation errors
         const basePos = labelGeo.attributes.position.clone();
 
         function updateLabel(val) {
