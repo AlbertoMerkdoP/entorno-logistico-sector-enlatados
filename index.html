@@ -24,8 +24,8 @@
                         'brand-blue': '#2997ff',
                         'brand-red': '#ff453a',
                         'brand-gold': '#ffd700',
-                        'glass-bg': 'rgba(10, 10, 12, 0.85)',
-                        'glass-border': 'rgba(255, 255, 255, 0.1)'
+                        'glass-bg': 'rgba(8, 8, 10, 0.90)', /* Más opaco para legibilidad */
+                        'glass-border': 'rgba(255, 255, 255, 0.15)'
                     }
                 }
             }
@@ -45,27 +45,34 @@
             pointer-events: none;
         }
 
-        /* Paneles de Texto */
+        /* --- PANELES DE TEXTO --- */
         .content-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--glass-border);
             border-left: 3px solid var(--accent-color, #2997ff);
             padding: 2.5rem;
             border-radius: 0 1rem 1rem 0;
-            max-width: 500px; /* Reducido para dar más aire */
+            max-width: 480px; /* Ancho controlado para evitar choques */
             opacity: 0; /* Controlado por GSAP */
             transform: translateY(30px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
         
-        .right-aligned {
-            margin-left: auto; /* Empuja el panel a la derecha */
+        /* Variante para panel a la DERECHA (Cuando la lata está a la Izquierda) */
+        .panel-right {
+            margin-left: auto; /* Empuja a la derecha */
             border-radius: 1rem 0 0 1rem;
             border-left: 1px solid var(--glass-border);
             border-right: 3px solid var(--accent-color, #2997ff);
             text-align: right;
+        }
+
+        /* Variante para panel a la IZQUIERDA (Cuando la lata está a la Derecha) */
+        .panel-left {
+            margin-right: auto; /* Empuja a la izquierda */
+            /* Estilos base ya definidos en .content-panel */
         }
 
         /* Tipografía */
@@ -87,12 +94,12 @@
 
         /* Layout de Scroll */
         .scroll-section {
-            height: 100vh; /* Altura fija para sincronizar mejor */
+            height: 100vh;
             position: relative;
             z-index: 10;
             display: flex;
             align-items: center;
-            padding: 0 8%; /* Más margen lateral */
+            padding: 0 6%; /* Margen lateral seguro */
             pointer-events: none; 
             border-bottom: 1px solid rgba(255,255,255,0.02);
         }
@@ -100,7 +107,7 @@
 
         /* Navegación */
         .nav-dots {
-            position: fixed; left: 30px; top: 50%; transform: translateY(-50%);
+            position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 15px; z-index: 50;
         }
         .dot {
@@ -114,7 +121,7 @@
             height: 2px; width: 60px; margin: 20px 0;
             background: linear-gradient(90deg, currentColor, transparent);
         }
-        .right-aligned .hud-line { 
+        .panel-right .hud-line { 
             background: linear-gradient(-90deg, currentColor, transparent); 
             margin-left: auto;
         }
@@ -132,7 +139,7 @@
             <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-100"></div>
             <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-200"></div>
         </div>
-        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Modelo 3D...</div>
+        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Generando Entorno 3D...</div>
     </div>
 
     <!-- Canvas 3D -->
@@ -164,12 +171,11 @@
     </div>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <!-- Contenedor scroll para controlar altura total -->
     <div id="scroll-wrapper">
         
-        <!-- 0. INTRODUCCIÓN (Texto Izq -> Lata Derecha) -->
-        <section class="scroll-section justify-start" id="sec-0">
-            <div class="content-panel" style="--accent-color: #2997ff;">
+        <!-- 0. INTRODUCCIÓN (Lata IZQUIERDA Grande - Texto DERECHA) -->
+        <section class="scroll-section justify-end" id="sec-0">
+            <div class="content-panel panel-right" style="--accent-color: #2997ff;">
                 <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Introducción</span>
                 <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">Ingeniería<br>Transoceánica.</h1>
                 <div class="hud-line text-brand-blue"></div>
@@ -193,9 +199,9 @@
             </div>
         </section>
 
-        <!-- 1. PRODUCTO (Texto Der -> Lata Izquierda) -->
-        <section class="scroll-section justify-end" id="sec-1">
-            <div class="content-panel right-aligned" style="--accent-color: #32d74b;">
+        <!-- 1. PRODUCTO (Lata DERECHA - Texto IZQUIERDA) -->
+        <section class="scroll-section justify-start" id="sec-1">
+            <div class="content-panel panel-left" style="--accent-color: #32d74b;">
                 <span class="text-xs font-mono text-green-400 tracking-widest uppercase mb-2 block">Caracterización</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Transparencia Total</h2>
                 <div class="hud-line text-green-400"></div>
@@ -218,9 +224,9 @@
             </div>
         </section>
 
-        <!-- 2. RIESGO HISTAMINA (Texto Izq -> Lata Derecha) -->
-        <section class="scroll-section justify-start" id="sec-2">
-            <div class="content-panel" style="--accent-color: #ff453a;">
+        <!-- 2. RIESGO HISTAMINA (Lata IZQUIERDA - Texto DERECHA) -->
+        <section class="scroll-section justify-end" id="sec-2">
+            <div class="content-panel panel-right" style="--accent-color: #ff453a;">
                 <span class="text-xs font-mono text-red-500 tracking-widest uppercase mb-2 block">Punto Crítico</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Barrera Térmica</h2>
                 <div class="hud-line text-red-500"></div>
@@ -246,14 +252,14 @@
             </div>
         </section>
 
-        <!-- 3. ALMACENAMIENTO (Texto Der -> Rack Izquierda) -->
+        <!-- 3. ALMACENAMIENTO FEFO (Estiba IZQUIERDA - Texto DERECHA) -->
         <section class="scroll-section justify-end" id="sec-3">
-            <div class="content-panel right-aligned" style="--accent-color: #ff9f0a;">
+            <div class="content-panel panel-right" style="--accent-color: #ff9f0a;">
                 <span class="text-xs font-mono text-orange-400 tracking-widest uppercase mb-2 block">Inventarios</span>
-                <h2 class="text-4xl font-bold text-white mb-4">Lógica FIFO / FEFO</h2>
+                <h2 class="text-4xl font-bold text-white mb-4">Estrategia FEFO</h2>
                 <div class="hud-line text-orange-400"></div>
                 <p class="mb-4">
-                    Prioridad absoluta a la rotación <strong>FEFO</strong> (Primero en Expirar, Primero en Salir).
+                    Se aplica estrictamente el sistema <strong>FEFO</strong> (First Expired, First Out) para garantizar que los lotes con vencimiento más próximo salgan primero.
                 </p>
                 <p>
                     Control estricto de humedad (<75%) para evitar la "lluvia de contenedores" y oxidación de latas en bodega.
@@ -264,16 +270,16 @@
                         <span>< 75%</span>
                     </div>
                     <div class="kpi-item">
-                        <span>Temp.</span>
-                        <span>10-30°C</span>
+                        <span>Estrategia</span>
+                        <span>FEFO</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. TRANSPORTE (Texto Izq -> Contenedor/Lata Derecha) -->
+        <!-- 4. TRANSPORTE (Lata DERECHA - Texto IZQUIERDA) -->
         <section class="scroll-section justify-start" id="sec-4">
-            <div class="content-panel" style="--accent-color: #2997ff;">
+            <div class="content-panel panel-left" style="--accent-color: #2997ff;">
                 <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Distribución</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Densidad de Carga</h2>
                 <div class="hud-line text-brand-blue"></div>
@@ -325,7 +331,7 @@
         scene.fog = new THREE.FogExp2(0x050505, 0.035);
 
         const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
-        // Posición inicial
+        // Posición inicial de la cámara
         camera.position.set(0, 0, 10);
 
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
@@ -412,7 +418,7 @@
         canGroup.add(canBody, rimTop, rimBot, lidGroup, meat, labelMesh);
         mainGroup.add(canGroup);
 
-        // RACK (Estantería)
+        // RACK (Estantería - OCULTO INICIALMENTE)
         const rackGroup = new THREE.Group();
         const rackMat = new THREE.MeshStandardMaterial({ color: 0xe67e22, roughness: 0.7 }); 
         const postGeo = new THREE.BoxGeometry(0.15, 6, 0.15);
@@ -427,6 +433,8 @@
         const box2 = new THREE.Mesh(boxGeo, boxMat); box2.position.set(0, -0.65, -1);
         const box3 = new THREE.Mesh(boxGeo, boxMat); box3.position.set(1.2, -0.65, -1);
         rackGroup.add(p1, p2, b1, b2, box1, box2, box3);
+        // Inicialmente muy abajo para no verse
+        rackGroup.position.set(0, -15, 0);
         mainGroup.add(rackGroup);
 
         // --- 4. LUCES ---
@@ -440,10 +448,10 @@
         coloredLight.position.set(-3, 2, 2);
         scene.add(coloredLight);
 
-        // --- 5. ANIMACIÓN UNIFICADA ---
+        // --- 5. ANIMACIÓN UNIFICADA (COREOGRAFÍA) ---
         gsap.registerPlugin(ScrollTrigger);
 
-        // Animación de textos (Fade Up simple)
+        // A. Aparición de Textos
         gsap.utils.toArray('.content-panel').forEach(panel => {
             gsap.to(panel, {
                 opacity: 1, y: 0, duration: 0.5,
@@ -455,63 +463,67 @@
             });
         });
 
-        // --- LINEA DE TIEMPO MAESTRA ---
-        // Usamos una sola timeline para TODO el recorrido
-        // Esto evita que las animaciones se desincronicen al subir
-        
+        // B. Timeline Maestra de 3D
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#scroll-wrapper",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 1.5, // Suavizado para evitar saltos
+                scrub: 1.5, // Suavizado
             }
         });
 
-        // 1. INTRO (Lata Derecha, Texto Izq)
-        // Estado inicial definido en setup, aquí animamos hacia la siguiente sección
-        tl.to(canGroup.position, { x: 2.5, y: 0, z: 0 }, 0) // Lata se mueve a la derecha
-          .to(canGroup.rotation, { z: 0.2, y: -0.5 }, 0)
-          .to(rackGroup.position, { y: -15 }, 0); // Rack escondido abajo
+        // NOTA: Usamos márgenes amplios en X (+/- 2.2) para asegurar que no toque el texto.
 
-        // 2. PRODUCTO (Lata Izquierda, Texto Der, SE ABRE)
-        tl.to(canGroup.position, { x: -2.5, y: 0, z: 2 }, 1) // Lata a la Izquierda
+        // 0. ESTADO INICIAL (Definido en el setup de la Timeline)
+        // Lata Izquierda (-2.2), Grande. Texto Intro está a la Derecha.
+        tl.set(canGroup.position, { x: -2.2, y: 0, z: 1.5 }) 
+          .set(canGroup.scale, { x: 1.2, y: 1.2, z: 1.2 }) // Grande
+          .set(rackGroup.position, { y: -20 }); // Oculto
+
+        // 1. TRANSICIÓN A PRODUCTO (Lata viaja a la DERECHA)
+        // Texto Producto está a la Izquierda.
+        tl.to(canGroup.position, { x: 2.5, y: 0, z: 1 }, 1)
+          .to(canGroup.scale, { x: 1, y: 1, z: 1 }, 1) // Tamaño normal
           .to(canGroup.rotation, { x: 0.5, y: -0.8, z: 0 }, 1)
-          // Apertura
+          // APERTURA DE LATA
           .to(lidGroup.rotation, { x: -Math.PI / 1.8 }, 1) 
           .to(lidGroup.position, { y: 1.0, z: -0.5 }, 1)
           .to(tabGroup.rotation, { x: -Math.PI / 3 }, 1);
 
-        // 3. HISTAMINA (Lata Derecha, Texto Izq, SE CIERRA, ROJO)
-        tl.to(canGroup.position, { x: 2.5, z: 0 }, 2) // Lata Derecha
+        // 2. TRANSICIÓN A HISTAMINA (Lata viaja a la IZQUIERDA)
+        // Texto Histamina está a la Derecha.
+        tl.to(canGroup.position, { x: -2.5, y: 0, z: 1 }, 2)
           .to(canGroup.rotation, { x: 0, y: 0, z: 0 }, 2)
-          // Cierre
+          // Cierre de lata
           .to(lidGroup.rotation, { x: 0 }, 2)
           .to(lidGroup.position, { y: 0.48, z: 0 }, 2)
           .to(tabGroup.rotation, { x: 0 }, 2)
-          // Luces
+          // Luces Rojas
           .to(coloredLight, { intensity: 8 }, 2)
-          .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 2); // Rojo
+          .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 2);
 
-        // 4. ALMACENAMIENTO (Rack entra Izq, Lata se va/achica)
-        tl.to(canGroup.position, { x: 4, y: 2 }, 3) // Lata sale casi de escena
-          .to(rackGroup.position, { x: -1.5, y: 0, z: -2 }, 3) // Rack sube a la Izquierda
-          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3); // Naranja
+        // 3. TRANSICIÓN A FEFO (Lata sale, RACK aparece a la IZQUIERDA)
+        // Texto FEFO está a la Derecha.
+        tl.to(canGroup.position, { x: 5, y: 2 }, 3) // Lata sale de escena por la derecha
+          .to(rackGroup.position, { x: -2.0, y: 0, z: -1 }, 3) // Rack sube a la Izquierda
+          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3); // Luz Naranja
 
-        // 5. TRANSPORTE (Rack sale, Lata Vuelve Centro/Der)
-        tl.to(rackGroup.position, { y: 15 }, 4) // Rack sube y sale
-          .to(canGroup.position, { x: 2.0, y: 0, z: 0 }, 4) // Lata vuelve Derecha
-          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4); // Azul
+        // 4. TRANSICIÓN A TRANSPORTE (Rack sale, Lata vuelve a la DERECHA)
+        // Texto Transporte está a la Izquierda.
+        tl.to(rackGroup.position, { y: 15 }, 4) // Rack sube y desaparece
+          .to(canGroup.position, { x: 2.2, y: 0, z: 0 }, 4) // Lata vuelve
+          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4); // Luz Azul
 
-        // 6. FINAL (Lata Centro)
-        tl.to(canGroup.position, { x: 0, y: 0, z: 3 }, 5)
+        // 5. FINAL (Lata al CENTRO)
+        // Texto Conclusión está al Centro.
+        tl.to(canGroup.position, { x: 0, y: 0, z: 2.5 }, 5)
           .to(canGroup.rotation, { x: Math.PI/2, y: 0, z: 0 }, 5)
           .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }, 5); // Dorado
 
         // Helpers
         function animate() {
             requestAnimationFrame(animate);
-            // Rotación suave pasiva solo si no se está moviendo bruscamente
             if (!gsap.isTweening(canGroup.rotation)) {
                 canGroup.rotation.y += 0.002;
             }
@@ -529,7 +541,6 @@
         const dots = document.querySelectorAll('.dot');
         
         window.addEventListener('scroll', () => {
-             // Detección simple para actualizar dots
              let current = '';
              const scrollY = window.scrollY;
              const h = window.innerHeight;
@@ -547,7 +558,7 @@
              // Actualizar texto estado
              const statusTxt = document.getElementById('status-text');
              const statusInd = document.getElementById('status-indicator');
-             if(current === 2) { // Histamina
+             if(current === 2) { 
                  statusTxt.innerText = "ALERTA TÉRMICA";
                  statusTxt.style.color = "#ff453a";
                  statusInd.classList.remove('bg-brand-blue');
