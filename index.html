@@ -24,8 +24,8 @@
                         'brand-blue': '#2997ff',
                         'brand-red': '#ff453a',
                         'brand-gold': '#ffd700',
-                        'glass-bg': 'rgba(20, 20, 22, 0.85)',
-                        'glass-border': 'rgba(255, 255, 255, 0.15)'
+                        'glass-bg': 'rgba(10, 10, 12, 0.85)',
+                        'glass-border': 'rgba(255, 255, 255, 0.1)'
                     }
                 }
             }
@@ -54,14 +54,14 @@
             border-left: 3px solid var(--accent-color, #2997ff);
             padding: 2.5rem;
             border-radius: 0 1rem 1rem 0;
-            max-width: 550px;
-            opacity: 0; 
+            max-width: 500px; /* Reducido para dar más aire */
+            opacity: 0; /* Controlado por GSAP */
             transform: translateY(30px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
         
         .right-aligned {
-            margin-left: auto;
+            margin-left: auto; /* Empuja el panel a la derecha */
             border-radius: 1rem 0 0 1rem;
             border-left: 1px solid var(--glass-border);
             border-right: 3px solid var(--accent-color, #2997ff);
@@ -70,7 +70,7 @@
 
         /* Tipografía */
         h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
-        p { font-family: 'Inter', sans-serif; line-height: 1.7; color: #d1d1d6; font-size: 1rem; }
+        p { font-family: 'Inter', sans-serif; line-height: 1.6; color: #d1d1d6; font-size: 0.95rem; }
         strong { color: #fff; font-weight: 600; }
         
         /* Grid de Datos */
@@ -82,31 +82,32 @@
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
-        .kpi-item span:first-child { display: block; font-size: 0.75rem; text-transform: uppercase; color: #86868b; letter-spacing: 1px; margin-bottom: 4px; }
-        .kpi-item span:last-child { display: block; font-size: 1.5rem; font-weight: 700; color: #fff; font-family: 'Space Grotesk', sans-serif; }
+        .kpi-item span:first-child { display: block; font-size: 0.7rem; text-transform: uppercase; color: #86868b; letter-spacing: 1px; margin-bottom: 4px; }
+        .kpi-item span:last-child { display: block; font-size: 1.25rem; font-weight: 700; color: #fff; font-family: 'Space Grotesk', sans-serif; }
 
         /* Layout de Scroll */
         .scroll-section {
-            min-height: 100vh;
+            height: 100vh; /* Altura fija para sincronizar mejor */
             position: relative;
             z-index: 10;
             display: flex;
             align-items: center;
-            padding: 0 5%;
+            padding: 0 8%; /* Más margen lateral */
             pointer-events: none; 
+            border-bottom: 1px solid rgba(255,255,255,0.02);
         }
         .scroll-section > * { pointer-events: auto; }
 
         /* Navegación */
         .nav-dots {
-            position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 12px; z-index: 50;
+            position: fixed; left: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 50;
         }
         .dot {
-            width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%;
-            transition: all 0.3s ease; cursor: pointer; border: 1px solid transparent;
+            width: 6px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 50%;
+            transition: all 0.3s ease; cursor: pointer;
         }
-        .dot.active { background: #2997ff; transform: scale(1.3); box-shadow: 0 0 15px rgba(41, 151, 255, 0.5); border-color: #fff; }
+        .dot.active { background: #2997ff; transform: scale(1.5); box-shadow: 0 0 10px #2997ff; }
 
         /* Líneas Decorativas */
         .hud-line {
@@ -131,7 +132,7 @@
             <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-100"></div>
             <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-200"></div>
         </div>
-        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Informe...</div>
+        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Modelo 3D...</div>
     </div>
 
     <!-- Canvas 3D -->
@@ -163,13 +164,14 @@
     </div>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main>
+    <!-- Contenedor scroll para controlar altura total -->
+    <div id="scroll-wrapper">
         
-        <!-- 0. INTRODUCCIÓN -->
-        <section class="scroll-section" id="sec-0">
+        <!-- 0. INTRODUCCIÓN (Texto Izq -> Lata Derecha) -->
+        <section class="scroll-section justify-start" id="sec-0">
             <div class="content-panel" style="--accent-color: #2997ff;">
                 <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Introducción</span>
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4">Ingeniería<br>Transoceánica.</h1>
+                <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">Ingeniería<br>Transoceánica.</h1>
                 <div class="hud-line text-brand-blue"></div>
                 <p class="text-lg">
                     El atún enlatado aparenta simplicidad, pero es el resultado de una orquestación logística compleja que desafía la biología, la termodinámica y las distancias globales.
@@ -177,7 +179,7 @@
                 <div class="mt-8 pt-6 border-t border-white/10 flex justify-between items-end">
                      <div>
                         <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-2">Autores</div>
-                        <ul class="text-sm text-white space-y-1 font-medium">
+                        <ul class="text-xs text-white space-y-1 font-medium">
                             <li>Alberto Mercado</li>
                             <li>Marolin Pumarejo</li>
                             <li>Juan Quintero</li>
@@ -185,132 +187,132 @@
                      </div>
                      <div class="text-right">
                         <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-2">Institución</div>
-                        <div class="text-sm text-white font-medium">Universidad del Atlántico</div>
+                        <div class="text-xs text-white font-medium">Universidad del Atlántico</div>
                      </div>
                 </div>
             </div>
         </section>
 
-        <!-- 1. PRODUCTO (Animación: Apertura de Lata) -->
+        <!-- 1. PRODUCTO (Texto Der -> Lata Izquierda) -->
         <section class="scroll-section justify-end" id="sec-1">
             <div class="content-panel right-aligned" style="--accent-color: #32d74b;">
-                <span class="text-xs font-mono text-green-400 tracking-widest uppercase mb-2 block">Caracterización del Producto</span>
+                <span class="text-xs font-mono text-green-400 tracking-widest uppercase mb-2 block">Caracterización</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Transparencia Total</h2>
                 <div class="hud-line text-green-400"></div>
                 <p class="mb-4">
-                    La logística comienza con la biología. El producto final depende de especies como el <strong>Skipjack</strong> y el <strong>Yellowfin</strong>, cada una con requerimientos de manejo específicos desde la captura.
+                    La logística inicia con la biología: <strong>Skipjack</strong> para volumen masivo y <strong>Yellowfin</strong> para premium. 
                 </p>
-                <p>
-                    El envase de hojalata hermético es fundamental, garantizando la esterilidad comercial y una larga vida útil sin necesidad de refrigeración.
+                <p class="mb-4">
+                    El envase de hojalata garantiza esterilidad y una vida útil de hasta <strong>5 años</strong> sin refrigeración.
                 </p>
                 <div class="kpi-grid">
                     <div class="kpi-item">
-                        <span>Contenido Proteico</span>
+                        <span>Proteína</span>
                         <span>20-30%</span>
                     </div>
                     <div class="kpi-item">
                         <span>Vida Útil</span>
-                        <span>2-5 Años</span>
+                        <span>5 Años</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. RIESGO HISTAMINA (Animación: Luz Roja) -->
-        <section class="scroll-section" id="sec-2">
+        <!-- 2. RIESGO HISTAMINA (Texto Izq -> Lata Derecha) -->
+        <section class="scroll-section justify-start" id="sec-2">
             <div class="content-panel" style="--accent-color: #ff453a;">
-                <span class="text-xs font-mono text-red-500 tracking-widest uppercase mb-2 block">Punto Crítico de Control</span>
-                <h2 class="text-4xl font-bold text-white mb-4">La Barrera Térmica</h2>
+                <span class="text-xs font-mono text-red-500 tracking-widest uppercase mb-2 block">Punto Crítico</span>
+                <h2 class="text-4xl font-bold text-white mb-4">Barrera Térmica</h2>
                 <div class="hud-line text-red-500"></div>
                 <p class="mb-4">
-                    El mayor riesgo logístico es la formación de <strong>histamina</strong>. Esta toxina es termoestable: ni siquiera el proceso de autoclave puede eliminarla una vez formada.
+                    El enemigo silencioso es la <strong>histamina</strong>. Si la materia prima supera los 4°C antes de proceso, la toxina se forma y <em>no se elimina con calor</em>.
                 </p>
                 <div class="bg-red-900/20 border border-red-500/50 p-4 rounded-lg mb-4 flex items-start gap-3">
                     <div class="text-2xl">⚠️</div>
-                    <p class="text-red-200 text-sm leading-relaxed m-0">
-                        <strong>ALERTA CRÍTICA:</strong> Si la materia prima se expone a temperaturas inadecuadas (>4°C) por periodos prolongados, el lote puede desarrollarse histamina.
+                    <p class="text-red-200 text-xs leading-relaxed m-0">
+                        <strong>ALERTA CRÍTICA:</strong> Exposición >4°C prolongada = Lote destruido. Riesgo sanitario irreversible.
                     </p>
                 </div>
                 <div class="kpi-grid">
                     <div class="kpi-item">
-                        <span>Límite Regulatorio</span>
+                        <span>Límite Legal</span>
                         <span>50 PPM</span>
                     </div>
                     <div class="kpi-item">
-                        <span>Temp. Crítica</span>
-                        <span>> 4°C</span>
+                        <span>Temp. Máx</span>
+                        <span>4°C</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. ALMACENAMIENTO (Animación: Rack FIFO) -->
+        <!-- 3. ALMACENAMIENTO (Texto Der -> Rack Izquierda) -->
         <section class="scroll-section justify-end" id="sec-3">
             <div class="content-panel right-aligned" style="--accent-color: #ff9f0a;">
-                <span class="text-xs font-mono text-orange-400 tracking-widest uppercase mb-2 block">Gestión de Inventario</span>
-                <h2 class="text-4xl font-bold text-white mb-4">Sistema FIFO / FEFO</h2>
+                <span class="text-xs font-mono text-orange-400 tracking-widest uppercase mb-2 block">Inventarios</span>
+                <h2 class="text-4xl font-bold text-white mb-4">Lógica FIFO / FEFO</h2>
                 <div class="hud-line text-orange-400"></div>
                 <p class="mb-4">
-                    La rotación es vital para evitar el deterioro, a pesar de la larga vida útil. Se prioriza el sistema <strong>FEFO</strong> (First Expired, First Out).
+                    Prioridad absoluta a la rotación <strong>FEFO</strong> (Primero en Expirar, Primero en Salir).
                 </p>
                 <p>
-                    La humedad relativa en bodega debe mantenerse bajo el 75% para evitar la corrosión de las latas y daños en las etiquetas.
+                    Control estricto de humedad (<75%) para evitar la "lluvia de contenedores" y oxidación de latas en bodega.
                 </p>
                 <div class="kpi-grid">
                     <div class="kpi-item">
-                        <span>Humedad Máx.</span>
+                        <span>Humedad</span>
                         <span>< 75%</span>
                     </div>
                     <div class="kpi-item">
-                        <span>Temp. Ideal</span>
+                        <span>Temp.</span>
                         <span>10-30°C</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. TRANSPORTE (Animación: Contenedor/Azul) -->
-        <section class="scroll-section" id="sec-4">
+        <!-- 4. TRANSPORTE (Texto Izq -> Contenedor/Lata Derecha) -->
+        <section class="scroll-section justify-start" id="sec-4">
             <div class="content-panel" style="--accent-color: #2997ff;">
-                <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Distribución Física</span>
+                <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Distribución</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Densidad de Carga</h2>
                 <div class="hud-line text-brand-blue"></div>
                 <p class="mb-4">
-                    El atún enlatado es una carga de alta densidad. El factor limitante en el transporte suele ser el peso máximo permitido, no el volumen.
+                    Es "Carga Seca" de alta densidad. El límite es el peso por eje, no el volumen.
                 </p>
                 <p class="mb-4">
-                    Por eficiencia, se prefieren contenedores de <strong>20 pies</strong>. Un riesgo durante el transporte es la "lluvia de contenedores" por condensación.
+                    Se usan casi exclusivamente contenedores de <strong>20 pies</strong>. Un contenedor de 40 pies se llenaría de aire antes de alcanzar su peso máximo.
                 </p>
                 <div class="kpi-grid">
                     <div class="kpi-item">
                         <span>Factor Estiba</span>
-                        <span>1.60-1.68 m³/ton</span>
+                        <span>1.68 m³/ton</span>
                     </div>
                     <div class="kpi-item">
-                        <span>Contenedor</span>
-                        <span>20' (Preferido)</span>
+                        <span>Equipo</span>
+                        <span>20' Dry</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. CIERRE -->
+        <!-- 5. CIERRE (Centro) -->
         <section class="scroll-section justify-center text-center" id="sec-5">
             <div class="content-panel" style="--accent-color: #ffd700; text-align: center; border-right: 3px solid #ffd700; border-left: 3px solid #ffd700; max-width: 700px;">
                 <span class="text-xs font-mono text-yellow-400 tracking-widest uppercase mb-2 block">Conclusión</span>
-                <h2 class="text-4xl font-bold text-white mb-4">Logística como Ventaja Competitiva</h2>
+                <h2 class="text-4xl font-bold text-white mb-4">Logística Competitiva</h2>
                 <div class="hud-line text-yellow-400 mx-auto"></div>
                 <p class="mb-8">
-                    La gestión logística integral, desde el control de la histamina hasta la entrega final, es esencial para garantizar la calidad, la inocuidad y la disponibilidad del producto en el mercado.
+                    La excelencia logística garantiza inocuidad, disponibilidad y calidad. El consumidor confía en la lata; la ingeniería asegura esa confianza.
                 </p>
                 <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="group relative px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-sm font-bold transition-all uppercase tracking-widest overflow-hidden">
-                    <span class="relative z-10 group-hover:text-brand-blue transition-colors">Reiniciar Informe</span>
+                    <span class="relative z-10 group-hover:text-brand-blue transition-colors">Reiniciar</span>
                     <div class="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors"></div>
                 </button>
             </div>
         </section>
 
-    </main>
+    </div>
 
     <!-- Librerías -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -318,12 +320,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // --- 1. CONFIGURACIÓN INICIAL ---
+        // --- 1. ESCENA 3D ---
         const scene = new THREE.Scene();
         scene.fog = new THREE.FogExp2(0x050505, 0.035);
 
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 0, 8);
+        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+        // Posición inicial
+        camera.position.set(0, 0, 10);
 
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -333,47 +336,31 @@
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // --- 2. MATERIALES & TEXTURAS ---
+        // --- 2. ASSETS ---
         function createMetalTex() {
-            const c = document.createElement('canvas'); c.width=512; c.height=512;
+            const c = document.createElement('canvas'); c.width=256; c.height=256;
             const x = c.getContext('2d');
-            x.fillStyle='#999'; x.fillRect(0,0,512,512);
-            for(let i=0; i<60000; i++) {
+            x.fillStyle='#999'; x.fillRect(0,0,256,256);
+            for(let i=0; i<10000; i++) {
                 x.fillStyle = Math.random()>0.5?'#aaa':'#888';
-                x.fillRect(Math.random()*512, Math.random()*512, 2, 1);
+                x.fillRect(Math.random()*256, Math.random()*256, 2, 1);
             }
-            const t = new THREE.CanvasTexture(c);
-            return t;
+            return new THREE.CanvasTexture(c);
         }
 
         function createHoloLabel() {
             const c = document.createElement('canvas'); c.width=1024; c.height=512;
             const x = c.getContext('2d');
-            
             const grd = x.createLinearGradient(0,0,0,512);
             grd.addColorStop(0, '#001a33'); grd.addColorStop(0.5, '#003366'); grd.addColorStop(1, '#001a33');
             x.fillStyle = grd; x.fillRect(0,0,1024,512);
-            
             x.strokeStyle = 'rgba(41, 151, 255, 0.2)'; x.lineWidth=1;
             for(let i=0; i<1024; i+=40) { x.beginPath(); x.moveTo(i,0); x.lineTo(i,512); x.stroke(); }
-            for(let i=0; i<512; i+=40) { x.beginPath(); x.moveTo(0,i); x.lineTo(1024,i); x.stroke(); }
-
             x.fillStyle = '#b8860b'; x.fillRect(0, 450, 1024, 20);
-            
             x.fillStyle='#fff'; x.font="900 80px Arial"; x.fillText("ATÚN ENLATADO", 50, 150);
             x.fillStyle='#4db8ff'; x.font="600 40px Arial"; x.fillText("LOMOS EN ACEITE", 50, 210);
-            
-            x.strokeStyle='#fff'; x.lineWidth=3;
-            x.strokeRect(800, 50, 150, 150);
-            x.font="60px Arial"; x.fillText("UP", 845, 150);
-            
-            x.fillStyle='#ccc'; x.font="20px monospace"; 
-            let txt = "PESO NETO: 170g | LOTE: 2025-A";
-            x.fillText(txt, 50, 420);
-
-            const t = new THREE.CanvasTexture(c); 
-            t.anisotropy=16; 
-            return t;
+            x.fillStyle='#ccc'; x.font="20px monospace"; x.fillText("PESO NETO: 170g | LOTE: 2025-A", 50, 420);
+            const t = new THREE.CanvasTexture(c); t.anisotropy=16; return t;
         }
 
         function createMeatTexture() {
@@ -387,106 +374,79 @@
             return new THREE.CanvasTexture(c);
         }
 
-        // --- 3. OBJETOS 3D ---
+        // --- 3. MODELADO ---
         const mainGroup = new THREE.Group();
         scene.add(mainGroup);
 
-        const metalMat = new THREE.MeshStandardMaterial({ 
-            color: 0xffffff, roughness: 0.3, metalness: 0.8, bumpMap: createMetalTex(), bumpScale: 0.005 
-        });
-        const meatMat = new THREE.MeshStandardMaterial({
-            map: createMeatTexture(), roughness: 0.8, color: 0xffcccc
-        });
+        const metalMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3, metalness: 0.8, bumpMap: createMetalTex(), bumpScale: 0.005 });
+        const meatMat = new THREE.MeshStandardMaterial({ map: createMeatTexture(), roughness: 0.8, color: 0xffcccc });
 
-        // GEOMETRÍA DE LA LATA
+        // LATA
         const canGroup = new THREE.Group();
-        
-        // Cuerpo interno
         const canBody = new THREE.Mesh(new THREE.CylinderGeometry(0.99, 0.99, 1.0, 64), metalMat);
         canBody.castShadow = true;
-        
-        // Bordes
         const rimGeo = new THREE.TorusGeometry(1, 0.03, 16, 64);
         const rimTop = new THREE.Mesh(rimGeo, metalMat); rimTop.position.y = 0.5; rimTop.rotation.x = Math.PI/2;
         const rimBot = new THREE.Mesh(rimGeo, metalMat); rimBot.position.y = -0.5; rimBot.rotation.x = Math.PI/2;
         
-        // Tapa y Abre fácil (Grupo para animar apertura)
+        // Tapa (animable)
         const lidGroup = new THREE.Group();
         const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.02, 64), metalMat);
         lid.position.y = 0.48;
-        
         const tabGroup = new THREE.Group();
         const tabRing = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.015, 16, 32), metalMat);
         tabRing.rotation.x = Math.PI/2; tabRing.position.x = 0.35;
         const tabBase = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.01, 0.12), metalMat);
         tabBase.position.x = 0.15;
         tabGroup.add(tabRing, tabBase);
-        tabGroup.position.set(0, 0.51, 0); 
-        tabGroup.rotation.y = 0.5;
-        
+        tabGroup.position.set(0, 0.51, 0); tabGroup.rotation.y = 0.5;
         lidGroup.add(lid, tabGroup);
 
-        // Carne (Interior)
+        // Contenido y Etiqueta
         const meat = new THREE.Mesh(new THREE.CylinderGeometry(0.97, 0.97, 0.9, 32), meatMat);
-        meat.visible = true;
-
-        // ETIQUETA (Fija, no se pela)
         const labelGeo = new THREE.CylinderGeometry(1.01, 1.01, 0.92, 64, 1, true);
-        const labelMat = new THREE.MeshStandardMaterial({ 
-            map: createHoloLabel(), 
-            transparent: true, 
-            side: THREE.DoubleSide, 
-            roughness: 0.4,
-            metalness: 0.2
-        });
+        const labelMat = new THREE.MeshStandardMaterial({ map: createHoloLabel(), transparent: true, side: THREE.DoubleSide, roughness: 0.4, metalness: 0.2 });
         const labelMesh = new THREE.Mesh(labelGeo, labelMat);
-        labelMesh.rotation.y = -Math.PI/2; // Ajustar para que el texto quede al frente
+        labelMesh.rotation.y = -Math.PI/2;
 
         canGroup.add(canBody, rimTop, rimBot, lidGroup, meat, labelMesh);
         mainGroup.add(canGroup);
 
-        // 2. EL RACK (Estantería FIFO)
+        // RACK (Estantería)
         const rackGroup = new THREE.Group();
         const rackMat = new THREE.MeshStandardMaterial({ color: 0xe67e22, roughness: 0.7 }); 
-        
         const postGeo = new THREE.BoxGeometry(0.15, 6, 0.15);
         const p1 = new THREE.Mesh(postGeo, rackMat); p1.position.set(-2, 0, -1);
         const p2 = new THREE.Mesh(postGeo, rackMat); p2.position.set(2, 0, -1);
-        
         const beamGeo = new THREE.BoxGeometry(4.2, 0.1, 0.1);
         const b1 = new THREE.Mesh(beamGeo, rackMat); b1.position.set(0, -1, -1);
         const b2 = new THREE.Mesh(beamGeo, rackMat); b2.position.set(0, 1, -1);
-        
         const boxGeo = new THREE.BoxGeometry(0.8, 0.6, 0.8);
         const boxMat = new THREE.MeshStandardMaterial({ color: 0x8d6e63 });
         const box1 = new THREE.Mesh(boxGeo, boxMat); box1.position.set(-1.2, -0.65, -1);
         const box2 = new THREE.Mesh(boxGeo, boxMat); box2.position.set(0, -0.65, -1);
         const box3 = new THREE.Mesh(boxGeo, boxMat); box3.position.set(1.2, -0.65, -1);
-        
         rackGroup.add(p1, p2, b1, b2, box1, box2, box3);
-        rackGroup.position.set(0, -10, -3);
         mainGroup.add(rackGroup);
 
-        // --- 4. ILUMINACIÓN ---
+        // --- 4. LUCES ---
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
         scene.add(ambientLight);
-
         const spotLight = new THREE.SpotLight(0xffffff, 5);
         spotLight.position.set(5, 5, 5);
         spotLight.castShadow = true;
         scene.add(spotLight);
-
         const coloredLight = new THREE.PointLight(0x2997ff, 0, 10);
         coloredLight.position.set(-3, 2, 2);
         scene.add(coloredLight);
 
-        // --- 5. ANIMACIONES (GSAP + ScrollTrigger) ---
+        // --- 5. ANIMACIÓN UNIFICADA ---
         gsap.registerPlugin(ScrollTrigger);
 
-        // UI Animaciones
+        // Animación de textos (Fade Up simple)
         gsap.utils.toArray('.content-panel').forEach(panel => {
             gsap.to(panel, {
-                opacity: 1, y: 0, duration: 1,
+                opacity: 1, y: 0, duration: 0.5,
                 scrollTrigger: {
                     trigger: panel.parentElement,
                     start: "top 60%", end: "bottom 40%",
@@ -495,92 +455,64 @@
             });
         });
 
-        document.querySelectorAll('.scroll-section').forEach((sec, i) => {
-            ScrollTrigger.create({
-                trigger: sec, start: "top center", end: "bottom center",
-                onEnter: () => updateDots(i), onEnterBack: () => updateDots(i)
-            });
+        // --- LINEA DE TIEMPO MAESTRA ---
+        // Usamos una sola timeline para TODO el recorrido
+        // Esto evita que las animaciones se desincronicen al subir
+        
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#scroll-wrapper",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1.5, // Suavizado para evitar saltos
+            }
         });
 
-        function updateDots(idx) {
-            document.querySelectorAll('.dot').forEach((d, i) => {
-                if (i === idx) d.classList.add('active'); else d.classList.remove('active');
-            });
-        }
+        // 1. INTRO (Lata Derecha, Texto Izq)
+        // Estado inicial definido en setup, aquí animamos hacia la siguiente sección
+        tl.to(canGroup.position, { x: 2.5, y: 0, z: 0 }, 0) // Lata se mueve a la derecha
+          .to(canGroup.rotation, { z: 0.2, y: -0.5 }, 0)
+          .to(rackGroup.position, { y: -15 }, 0); // Rack escondido abajo
 
-        // --- LÓGICA DE ANIMACIÓN 3D ---
+        // 2. PRODUCTO (Lata Izquierda, Texto Der, SE ABRE)
+        tl.to(canGroup.position, { x: -2.5, y: 0, z: 2 }, 1) // Lata a la Izquierda
+          .to(canGroup.rotation, { x: 0.5, y: -0.8, z: 0 }, 1)
+          // Apertura
+          .to(lidGroup.rotation, { x: -Math.PI / 1.8 }, 1) 
+          .to(lidGroup.position, { y: 1.0, z: -0.5 }, 1)
+          .to(tabGroup.rotation, { x: -Math.PI / 3 }, 1);
 
-        // TL0: Intro -> Producto
-        gsap.timeline({
-            scrollTrigger: { trigger: "#sec-0", start: "top top", end: "bottom top", scrub: 1 }
-        })
-        .to(camera.position, { z: 5, x: 0 })
-        .to(canGroup.position, { x: -1.5 })
-        .to(canGroup.rotation, { z: 0.2, y: -0.5 });
+        // 3. HISTAMINA (Lata Derecha, Texto Izq, SE CIERRA, ROJO)
+        tl.to(canGroup.position, { x: 2.5, z: 0 }, 2) // Lata Derecha
+          .to(canGroup.rotation, { x: 0, y: 0, z: 0 }, 2)
+          // Cierre
+          .to(lidGroup.rotation, { x: 0 }, 2)
+          .to(lidGroup.position, { y: 0.48, z: 0 }, 2)
+          .to(tabGroup.rotation, { x: 0 }, 2)
+          // Luces
+          .to(coloredLight, { intensity: 8 }, 2)
+          .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 2); // Rojo
 
-        // TL1: Apertura de Lata (Sección 1) - REEMPLAZA PELADO DE ETIQUETA
-        gsap.timeline({
-            scrollTrigger: { trigger: "#sec-1", start: "top top", end: "bottom top", scrub: 1 }
-        })
-        .fromTo(lidGroup.rotation, { x: 0 }, { x: -Math.PI / 1.5, immediateRender: false }) // Abrir tapa
-        .fromTo(lidGroup.position, { y: 0.48, z: 0 }, { y: 1.2, z: -0.5, immediateRender: false }, "<") // Mover tapa hacia arriba y atrás
-        .fromTo(tabGroup.rotation, { x: 0 }, { x: -Math.PI / 3, immediateRender: false }, "<") // Levantar anilla
-        .to(canGroup.rotation, { y: -0.8, x: 0.3 }, "<"); // Rotar para ver mejor el interior
+        // 4. ALMACENAMIENTO (Rack entra Izq, Lata se va/achica)
+        tl.to(canGroup.position, { x: 4, y: 2 }, 3) // Lata sale casi de escena
+          .to(rackGroup.position, { x: -1.5, y: 0, z: -2 }, 3) // Rack sube a la Izquierda
+          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3); // Naranja
 
-        // TL2: Histamina / Alerta Roja (Sección 2)
-        gsap.timeline({
-            scrollTrigger: { trigger: "#sec-2", start: "top top", end: "bottom top", scrub: 1,
-                onEnter: () => {
-                    document.getElementById('status-text').innerText = "ALERTA TÉRMICA";
-                    document.getElementById('status-text').style.color = "#ff453a";
-                    document.getElementById('status-indicator').classList.remove('bg-brand-blue');
-                    document.getElementById('status-indicator').classList.add('bg-brand-red');
-                },
-                onLeaveBack: () => {
-                    document.getElementById('status-text').innerText = "ONLINE";
-                    document.getElementById('status-text').style.color = "#fff";
-                    document.getElementById('status-indicator').classList.add('bg-brand-blue');
-                    document.getElementById('status-indicator').classList.remove('bg-brand-red');
-                }
-            }
-        })
-        .fromTo(lidGroup.rotation, { x: -Math.PI / 1.5 }, { x: 0, immediateRender: false }) // Cerrar tapa
-        .fromTo(lidGroup.position, { y: 1.2, z: -0.5 }, { y: 0.48, z: 0, immediateRender: false }, "<")
-        .fromTo(tabGroup.rotation, { x: -Math.PI / 3 }, { x: 0, immediateRender: false }, "<")
-        .fromTo(canGroup.position, { x: -1.5 }, { x: 0, immediateRender: false })
-        .fromTo(coloredLight, { intensity: 0 }, { intensity: 8, immediateRender: false })
-        .fromTo(coloredLight.color, { r: 0, g: 0, b: 0 }, { r: 1, g: 0.2, b: 0.2, immediateRender: false });
+        // 5. TRANSPORTE (Rack sale, Lata Vuelve Centro/Der)
+        tl.to(rackGroup.position, { y: 15 }, 4) // Rack sube y sale
+          .to(canGroup.position, { x: 2.0, y: 0, z: 0 }, 4) // Lata vuelve Derecha
+          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4); // Azul
 
-        // TL3: Rack FIFO (Sección 3)
-        gsap.timeline({
-            scrollTrigger: { trigger: "#sec-3", start: "top top", end: "bottom top", scrub: 1 }
-        })
-        .fromTo(canGroup.position, { x: 0, y: 0, z: 0 }, { x: 1.5, y: 0.5, z: 1, immediateRender: false })
-        .fromTo(canGroup.scale, { x: 1, y: 1, z: 1 }, { x: 0.7, y: 0.7, z: 0.7, immediateRender: false })
-        .fromTo(rackGroup.position, { y: -10 }, { y: 0, immediateRender: false })
-        .fromTo(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, { r: 1, g: 0.6, b: 0.0, immediateRender: false });
+        // 6. FINAL (Lata Centro)
+        tl.to(canGroup.position, { x: 0, y: 0, z: 3 }, 5)
+          .to(canGroup.rotation, { x: Math.PI/2, y: 0, z: 0 }, 5)
+          .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }, 5); // Dorado
 
-        // TL4: Contenedor (Sección 4)
-        gsap.timeline({
-            scrollTrigger: { trigger: "#sec-4", start: "top top", end: "bottom top", scrub: 1 }
-        })
-        .fromTo(rackGroup.position, { y: 0 }, { y: 8, immediateRender: false })
-        .fromTo(canGroup.scale, { x: 0.7, y: 0.7, z: 0.7 }, { x: 1, y: 1, z: 1, immediateRender: false })
-        .fromTo(canGroup.position, { x: 1.5, y: 0.5, z: 1 }, { x: -1.5, y: 0, z: 0, immediateRender: false })
-        .fromTo(coloredLight.color, { r: 1, g: 0.6, b: 0.0 }, { r: 0.2, g: 0.5, b: 1, immediateRender: false });
-
-        // TL5: Final (Sección 5)
-        gsap.timeline({
-            scrollTrigger: { trigger: "#sec-5", start: "top top", end: "bottom top", scrub: 1 }
-        })
-        .fromTo(canGroup.position, { x: -1.5, z: 0 }, { x: 0, z: 2, immediateRender: false })
-        .fromTo(canGroup.rotation, { x: 0, y: -2 }, { x: Math.PI/2, y: 0, immediateRender: false })
-        .fromTo(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, { r: 1, g: 0.8, b: 0.2, immediateRender: false });
-
-        // Rotación pasiva constante
+        // Helpers
         function animate() {
             requestAnimationFrame(animate);
-            if(!gsap.isTweening(canGroup.rotation)) {
+            // Rotación suave pasiva solo si no se está moviendo bruscamente
+            if (!gsap.isTweening(canGroup.rotation)) {
                 canGroup.rotation.y += 0.002;
             }
             renderer.render(scene, camera);
@@ -591,20 +523,58 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
+        
+        // Puntos de navegación
+        const sections = document.querySelectorAll('.scroll-section');
+        const dots = document.querySelectorAll('.dot');
+        
+        window.addEventListener('scroll', () => {
+             // Detección simple para actualizar dots
+             let current = '';
+             const scrollY = window.scrollY;
+             const h = window.innerHeight;
+             
+             sections.forEach((sec, i) => {
+                 const top = sec.offsetTop;
+                 if(scrollY >= top - h/3) current = i;
+             });
+             
+             dots.forEach((dot, i) => {
+                 if(i === current) dot.classList.add('active');
+                 else dot.classList.remove('active');
+             });
+             
+             // Actualizar texto estado
+             const statusTxt = document.getElementById('status-text');
+             const statusInd = document.getElementById('status-indicator');
+             if(current === 2) { // Histamina
+                 statusTxt.innerText = "ALERTA TÉRMICA";
+                 statusTxt.style.color = "#ff453a";
+                 statusInd.classList.remove('bg-brand-blue');
+                 statusInd.classList.add('bg-brand-red');
+             } else {
+                 statusTxt.innerText = "ONLINE";
+                 statusTxt.style.color = "#fff";
+                 statusInd.classList.add('bg-brand-blue');
+                 statusInd.classList.remove('bg-brand-red');
+             }
+        });
 
-        // Inicialización
         window.onload = () => {
             setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = 0;
+                document.getElementById('loader').style.opacity = 0;
                 setTimeout(() => {
-                    loader.style.display = 'none';
+                    document.getElementById('loader').style.display = 'none';
                     animate();
                     ScrollTrigger.refresh();
                 }, 800);
-            }, 1500);
+            }, 1000);
         };
 
+        window.scrollToSec = (idx) => {
+            const sec = document.getElementById(`sec-${idx}`);
+            window.scrollTo({ top: sec.offsetTop, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
