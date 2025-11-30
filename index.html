@@ -26,10 +26,6 @@
                         'brand-gold': '#ffd700',
                         'glass-bg': 'rgba(5, 5, 8, 0.95)',
                         'glass-border': 'rgba(255, 255, 255, 0.2)',
-                        'risk-low': '#32d74b',
-                        'risk-med': '#ffd60a', /* Amarillo más visible */
-                        'risk-high': '#ff9f0a', /* Naranja */
-                        'risk-crit': '#ff453a'  /* Rojo */
                     }
                 }
             }
@@ -75,7 +71,6 @@
 
         .panel-left { margin-right: auto; margin-left: 5%; }
 
-        /* Panel Full Width para Matriz - AJUSTADO PARA EVITAR CORTE */
         .panel-full {
             width: 90%; max-width: 1200px;
             margin: 0 auto;
@@ -86,10 +81,9 @@
             border-top: 3px solid var(--accent-color, #2997ff);
             flex-direction: row;
             align-items: stretch;
-            /* Altura dinámica pero con mínimo alto */
             min-height: 80vh; 
             height: auto;
-            padding-bottom: 2rem; /* Espacio extra abajo */
+            padding-bottom: 2rem;
         }
 
         @media (max-width: 1024px) {
@@ -100,7 +94,6 @@
         p { font-family: 'Inter', sans-serif; line-height: 1.6; color: #d1d1d6; font-size: 0.95rem; }
         strong { color: #fff; font-weight: 600; }
         
-        /* Grid de Datos */
         .kpi-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
             margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
@@ -108,18 +101,15 @@
         .kpi-item span:first-child { display: block; font-size: 0.7rem; text-transform: uppercase; color: #86868b; letter-spacing: 1px; margin-bottom: 4px; }
         .kpi-item span:last-child { display: block; font-size: 1.25rem; font-weight: 700; color: #fff; }
 
-        /* Scroll Sections - AJUSTADO */
         .scroll-section {
-            /* Permitir que la sección crezca si el contenido es largo */
             min-height: 100vh; 
             height: auto; 
             position: relative; z-index: 10;
-            display: flex; align-items: center; padding: 2rem 0; /* Padding vertical para no pegar bordes */
+            display: flex; align-items: center; padding: 2rem 0;
             pointer-events: none; 
         }
         .scroll-section > * { pointer-events: auto; }
 
-        /* Nav */
         .nav-dots {
             position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 15px; z-index: 50;
@@ -144,7 +134,7 @@
             gap: 4px;
             aspect-ratio: 1/1;
             width: 100%;
-            max-width: 400px; /* Un poco más pequeño para encajar mejor */
+            max-width: 400px;
             margin: 0 auto;
         }
         .heat-cell {
@@ -157,7 +147,6 @@
         .heat-cell:hover { transform: scale(1.1); z-index: 10; box-shadow: 0 0 15px rgba(0,0,0,0.8); color: #fff; cursor: pointer; border: 1px solid white; }
         
         .risk-list {
-            /* Scroll interno explícito y altura máxima relativa */
             max-height: 70vh;
             overflow-y: auto;
             padding-right: 10px;
@@ -165,19 +154,15 @@
         }
         .risk-item {
             background: rgba(255,255,255,0.03);
-            border-left: 4px solid transparent; /* Para indicador de color */
+            border-left: 4px solid transparent;
             border-radius: 4px;
             padding: 12px;
             margin-bottom: 10px;
             transition: background 0.2s;
         }
         .risk-item:hover { background: rgba(255,255,255,0.08); }
+        .risk-badge { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; border: 1px solid currentColor; }
         
-        .risk-badge {
-            font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; border: 1px solid currentColor;
-        }
-        
-        /* Custom Scrollbar */
         .risk-list::-webkit-scrollbar { width: 6px; }
         .risk-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         .risk-list::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
@@ -189,7 +174,7 @@
 
     <div id="loader" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
         <div class="font-display font-bold text-5xl tracking-tighter text-white mb-4">LOGÍSTICA<span class="text-brand-blue">ATÚN</span></div>
-        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Datos...</div>
+        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Recursos...</div>
     </div>
 
     <div id="canvas-container"></div>
@@ -269,7 +254,7 @@
                 <h2 class="text-4xl font-bold text-white mb-4">Barrera Térmica</h2>
                 <div class="hud-line text-red-500"></div>
                 <p class="mb-4">
-                    El enemigo silencioso es la <strong>histamina</strong>. Si la materia prima supera los 4°C antes de proceso, la toxina se forma y <em>no se elimina con calor</em>.
+                    Sin la etiqueta, el metal expuesto es vulnerable. El enemigo silencioso es la <strong>histamina</strong>. Si la materia prima supera los 4°C, el lote se pierde.
                 </p>
                 <div class="bg-red-900/20 border border-red-500/50 p-4 rounded-lg mb-4 flex items-start gap-3">
                     <div class="text-2xl">⚠️</div>
@@ -282,12 +267,12 @@
 
         <!-- 3. ALMACENAMIENTO FEFO -->
         <section class="scroll-section" id="sec-3">
-            <div class="content-panel panel-right" style="--accent-color: #ff9f0a;">
+            <div class="content-panel panel-left" style="--accent-color: #ff9f0a;">
                 <span class="text-xs font-mono text-orange-400 tracking-widest uppercase mb-2 block">Inventarios</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Estrategia FEFO</h2>
                 <div class="hud-line text-orange-400"></div>
                 <p class="mb-4">
-                    Se aplica estrictamente el sistema <strong>FEFO</strong> (First Expired, First Out).
+                    La lata rota hacia la posición de estiba. Se aplica estrictamente el sistema <strong>FEFO</strong> (First Expired, First Out) en el Rack Dinámico.
                 </p>
                 <div class="kpi-grid">
                     <div class="kpi-item"><span>Humedad</span><span>< 75%</span></div>
@@ -298,17 +283,21 @@
 
         <!-- 4. TRANSPORTE -->
         <section class="scroll-section" id="sec-4">
-            <div class="content-panel panel-left" style="--accent-color: #2997ff;">
+            <div class="content-panel panel-right" style="--accent-color: #2997ff;">
                 <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Distribución</span>
-                <h2 class="text-4xl font-bold text-white mb-4">Densidad de Carga</h2>
+                <h2 class="text-4xl font-bold text-white mb-4">Ingeniería de Carga</h2>
                 <div class="hud-line text-brand-blue"></div>
                 <p class="mb-4">
-                    Se usan casi exclusivamente contenedores de <strong>20 pies</strong> debido a la alta densidad de estiba (1.68 m³/ton).
+                    Despiece técnico: El factor limitante es el peso. Se usan contenedores de <strong>20 pies</strong> para maximizar la densidad de estiba (1.68 m³/ton).
                 </p>
+                <div class="kpi-grid">
+                    <div class="kpi-item"><span>Factor</span><span>1.68 m³/ton</span></div>
+                    <div class="kpi-item"><span>Contenedor</span><span>20' Dry</span></div>
+                </div>
             </div>
         </section>
 
-        <!-- 5. MATRIZ DE RIESGOS (NUEVA SECCIÓN) -->
+        <!-- 5. MATRIZ DE RIESGOS -->
         <section class="scroll-section justify-center" id="sec-5">
             <div class="content-panel panel-full" style="--accent-color: #bf5af2;">
                 <!-- Columna Izquierda: Heatmap -->
@@ -324,14 +313,9 @@
                     </div>
                     
                     <div class="relative w-full flex justify-center">
-                        <!-- Y Axis Label -->
                         <div class="absolute -left-4 top-1/2 -translate-y-1/2 -rotate-90 text-[10px] text-gray-500 tracking-widest font-bold">PROBABILIDAD</div>
-                        
-                        <div class="heatmap-grid" id="risk-heatmap">
-                            <!-- Generated by JS -->
-                        </div>
+                        <div class="heatmap-grid" id="risk-heatmap"></div>
                     </div>
-                    <!-- X Axis Label -->
                     <div class="text-center mt-3 text-[10px] text-gray-500 tracking-widest font-bold">IMPACTO</div>
                 </div>
 
@@ -341,9 +325,7 @@
                         Listado de Riesgos
                         <span class="text-xs bg-white/10 px-2 py-1 rounded text-gray-400">23 Total</span>
                     </h3>
-                    <div class="risk-list" id="risk-list-container">
-                        <!-- Items generated by JS -->
-                    </div>
+                    <div class="risk-list" id="risk-list-container"></div>
                 </div>
             </div>
         </section>
@@ -372,99 +354,67 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // --- DATOS DE RIESGO ---
+        // --- DATOS RIESGOS ---
         const riskData = [
-            { id: 1, name: "Escasez MP", desc: "Reducción capacidad productiva", prob: 3, imp: 4, plan: "Contratos múltiples, compras anticipadas" },
-            { id: 2, name: "Fenómenos Climáticos", desc: "El Niño/La Niña. Afecta pesca", prob: 4, imp: 4, plan: "Inventarios estratégicos, diversificación" },
-            { id: 3, name: "Precio Acero", desc: "Incremento costo empaque", prob: 3, imp: 4, plan: "Acuerdos de precio a largo plazo" },
-            { id: 4, name: "Cambios Regulatorios", desc: "Ajustes BPM/INVIMA/FDA", prob: 2, imp: 4, plan: "Auditorías, actualización HACCP" },
-            { id: 5, name: "Costo Combustible", desc: "Aumento costo logístico", prob: 3, imp: 3, plan: "Optimización rutas, carga consolidada" },
-            { id: 6, name: "Interrupciones Logísticas", desc: "Paros, bloqueos, puertos", prob: 3, imp: 4, plan: "Rutas alternas, puertos secundarios" },
-            { id: 7, name: "Cortes Energía", desc: "Paro producción/Riesgo sanitario", prob: 2, imp: 5, plan: "Plantas eléctricas, mtto preventivo" },
-            { id: 8, name: "Contaminación Micro", desc: "Riesgo recall y sanciones", prob: 1, imp: 5, plan: "HACCP intensivo, trazabilidad" },
-            { id: 9, name: "Unico Proveedor Envases", desc: "Paro total producción", prob: 2, imp: 5, plan: "Homologación proveedores" },
-            { id: 10, name: "Fluctuación Dólar", desc: "Incremento costos importación", prob: 3, imp: 3, plan: "Coberturas cambiarias" },
-            { id: 11, name: "Crisis Económicas", desc: "Menor consumo premium", prob: 2, imp: 3, plan: "Portafolio económico" },
-            { id: 12, name: "Cambio Preferencias", desc: "Menor demanda enlatados", prob: 2, imp: 3, plan: "Innovación, campañas educativas" },
-            { id: 13, name: "Requisitos Ambientales", desc: "Inversión sostenibilidad", prob: 2, imp: 4, plan: "Envases reciclables, certificaciones" },
-            { id: 14, name: "Escasez Aceites", desc: "Aumento costos producción", prob: 3, imp: 3, plan: "Diversificación proveedores" },
-            { id: 15, name: "Riesgos Geopolíticos", desc: "Escasez global", prob: 2, imp: 4, plan: "Mercados alternos" },
-            { id: 16, name: "Error Calidad", desc: "Defectos mercado, Recall", prob: 3, imp: 4, plan: "Capacitación, sensores" },
-            { id: 17, name: "Error Térmico", desc: "Riesgo microbiológico severo", prob: 2, imp: 5, plan: "Automatización, alarmas" },
-            { id: 18, name: "Error Etiquetado", desc: "Sanciones, pérdida trazabilidad", prob: 3, imp: 4, plan: "Escáneres, revisión cruzada" },
-            { id: 19, name: "Error Inventarios", desc: "Producto vencido (No FIFO)", prob: 3, imp: 3, plan: "ERP, auditorías" },
-            { id: 20, name: "Error Recepción MP", desc: "Ingreso fuera de especificación", prob: 3, imp: 4, plan: "Hojas técnicas, rechazo" },
-            { id: 21, name: "Error Despacho", desc: "Retrasos, devoluciones", prob: 4, imp: 3, plan: "Checklists, RFID" },
-            { id: 22, name: "Mala Manipulación", desc: "Latas abolladas", prob: 3, imp: 3, plan: "Capacitación, señalización" },
-            { id: 23, name: "Error Administrativo", desc: "Sobreproducción/Faltantes", prob: 3, imp: 3, plan: "Doble verificación" }
+            { id: 1, name: "Escasez MP", desc: "Reducción capacidad", prob: 3, imp: 4, plan: "Contratos múltiples" },
+            { id: 2, name: "Fenómenos Climáticos", desc: "El Niño/La Niña", prob: 4, imp: 4, plan: "Inventarios estratégicos" },
+            { id: 3, name: "Precio Acero", desc: "Costo empaque", prob: 3, imp: 4, plan: "Acuerdos largo plazo" },
+            { id: 4, name: "Cambios Regulatorios", desc: "INVIMA/FDA", prob: 2, imp: 4, plan: "Auditorías HACCP" },
+            { id: 5, name: "Costo Combustible", desc: "Logística cara", prob: 3, imp: 3, plan: "Optimización rutas" },
+            { id: 6, name: "Interrupciones", desc: "Paros, puertos", prob: 3, imp: 4, plan: "Rutas alternas" },
+            { id: 7, name: "Cortes Energía", desc: "Riesgo sanitario", prob: 2, imp: 5, plan: "Plantas eléctricas" },
+            { id: 8, name: "Contaminación", desc: "Recall/Sanciones", prob: 1, imp: 5, plan: "HACCP intensivo" },
+            { id: 9, name: "Unico Proveedor", desc: "Paro producción", prob: 2, imp: 5, plan: "Homologación" },
+            { id: 10, name: "Dólar", desc: "Costos importación", prob: 3, imp: 3, plan: "Coberturas" },
+            { id: 11, name: "Crisis Econ", desc: "Menor consumo", prob: 2, imp: 3, plan: "Portafolio económico" },
+            { id: 12, name: "Preferencias", desc: "Menor demanda", prob: 2, imp: 3, plan: "Innovación" },
+            { id: 13, name: "Ambiental", desc: "Sostenibilidad", prob: 2, imp: 4, plan: "Reciclaje" },
+            { id: 14, name: "Aceites", desc: "Costos insumos", prob: 3, imp: 3, plan: "Diversificación" },
+            { id: 15, name: "Geopolítica", desc: "Escasez global", prob: 2, imp: 4, plan: "Mercados alternos" },
+            { id: 16, name: "Calidad", desc: "Defectos", prob: 3, imp: 4, plan: "Sensores" },
+            { id: 17, name: "Térmico", desc: "Riesgo Botulismo", prob: 2, imp: 5, plan: "Automatización" },
+            { id: 18, name: "Etiquetado", desc: "Trazabilidad", prob: 3, imp: 4, plan: "Escáneres" },
+            { id: 19, name: "Inventarios", desc: "Vencimiento", prob: 3, imp: 3, plan: "ERP/FEFO" },
+            { id: 20, name: "Recepción MP", desc: "Fuera espec.", prob: 3, imp: 4, plan: "Rechazo" },
+            { id: 21, name: "Despacho", desc: "Devoluciones", prob: 4, imp: 3, plan: "RFID" },
+            { id: 22, name: "Manipulación", desc: "Abolladuras", prob: 3, imp: 3, plan: "Capacitación" },
+            { id: 23, name: "Admin", desc: "Faltantes", prob: 3, imp: 3, plan: "Doble check" }
         ];
 
-        // --- RENDERIZAR RIESGOS ---
+        // --- RENDERIZADO RIESGOS ---
         const heatmapEl = document.getElementById('risk-heatmap');
         const listEl = document.getElementById('risk-list-container');
 
-        // Generar Grid 5x5
-        // Rows: 5 down to 1 (Probabilidad)
-        // Cols: 1 to 5 (Impacto)
         for (let p = 5; p >= 1; p--) {
             for (let i = 1; i <= 5; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'heat-cell';
-                
-                // Color Logic based on P x I matrix (Typical Risk Matrix colors)
                 const riskVal = p * i;
-                let colorCode = '';
-                if(riskVal >= 15) colorCode = '#ff453a'; // Rojo
-                else if(riskVal >= 8) colorCode = '#ff9f0a'; // Naranja
-                else if(riskVal >= 4) colorCode = '#ffd60a'; // Amarillo
-                else colorCode = '#32d74b'; // Verde
-                
+                let colorCode = riskVal >= 15 ? '#ff453a' : (riskVal >= 8 ? '#ff9f0a' : (riskVal >= 4 ? '#ffd60a' : '#32d74b'));
                 cell.style.backgroundColor = colorCode;
-
-                // Count risks in this cell
                 const itemsInCell = riskData.filter(r => r.prob === p && r.imp === i);
                 if (itemsInCell.length > 0) {
-                    cell.innerHTML = `<span class="bg-black/40 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs backdrop-blur-sm shadow-md border border-white/20">${itemsInCell.length}</span>`;
-                    
-                    // Tooltip más robusto
-                    const tooltipText = itemsInCell.map(r => `${r.id}. ${r.name}`).join('\n');
-                    cell.title = `Riesgos en P:${p} I:${i}\n${tooltipText}`;
+                    cell.innerHTML = `<span class="bg-black/40 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] backdrop-blur-sm border border-white/20">${itemsInCell.length}</span>`;
+                    cell.title = itemsInCell.map(r => r.name).join(', ');
                 }
-
                 heatmapEl.appendChild(cell);
             }
         }
 
-        // Generar Lista
         riskData.forEach(r => {
             const el = document.createElement('div');
             el.className = 'risk-item';
-            
-            let badgeColor = 'text-[#32d74b] border-[#32d74b]';
-            let borderColor = '#32d74b';
-            let level = 'BAJO';
+            let borderColor = '#32d74b'; 
             const val = r.prob * r.imp;
-            if(val >= 15) { badgeColor = 'text-[#ff453a] border-[#ff453a]'; borderColor = '#ff453a'; level = 'CRÍTICO'; }
-            else if(val >= 8) { badgeColor = 'text-[#ff9f0a] border-[#ff9f0a]'; borderColor = '#ff9f0a'; level = 'ALTO'; }
-            else if(val >= 4) { badgeColor = 'text-[#ffd60a] border-[#ffd60a]'; borderColor = '#ffd60a'; level = 'MEDIO'; }
-
+            if(val >= 15) borderColor = '#ff453a';
+            else if(val >= 8) borderColor = '#ff9f0a';
+            else if(val >= 4) borderColor = '#ffd60a';
             el.style.borderLeftColor = borderColor;
-
-            el.innerHTML = `
-                <div class="flex justify-between items-start mb-1">
-                    <span class="text-sm font-bold text-white">${r.id}. ${r.name}</span>
-                    <span class="risk-badge border ${badgeColor}">${level} (${val})</span>
-                </div>
-                <p class="text-xs text-gray-400 mb-2">${r.desc}</p>
-                <div class="text-[10px] text-gray-500 bg-white/5 p-2 rounded">
-                    <strong class="text-gray-300">Plan:</strong> ${r.plan}
-                </div>
-            `;
+            el.innerHTML = `<div class="flex justify-between items-start mb-1"><span class="text-sm font-bold text-white">${r.id}. ${r.name}</span><span class="text-[10px] opacity-70">P:${r.prob} I:${r.imp}</span></div><p class="text-xs text-gray-400 mb-1">${r.desc}</p><div class="text-[9px] text-gray-500 bg-white/5 p-1 rounded">Plan: ${r.plan}</div>`;
             listEl.appendChild(el);
         });
 
-
-        // --- 1. ESCENA 3D ---
+        // --- 1. THREE.JS SETUP ---
         const scene = new THREE.Scene();
         scene.fog = new THREE.FogExp2(0x050505, 0.035);
         const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -477,11 +427,10 @@
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // --- 2. ASSETS ---
+        // --- 2. ASSETS & GEOMETRY ---
         function createMetalTex() {
             const c = document.createElement('canvas'); c.width=256; c.height=256;
-            const x = c.getContext('2d');
-            x.fillStyle='#999'; x.fillRect(0,0,256,256);
+            const x = c.getContext('2d'); x.fillStyle='#999'; x.fillRect(0,0,256,256);
             for(let i=0; i<10000; i++) { x.fillStyle = Math.random()>0.5?'#aaa':'#888'; x.fillRect(Math.random()*256, Math.random()*256, 2, 1); }
             return new THREE.CanvasTexture(c);
         }
@@ -489,124 +438,233 @@
             const c = document.createElement('canvas'); c.width=1024; c.height=512;
             const x = c.getContext('2d');
             const grd = x.createLinearGradient(0,0,0,512);
-            grd.addColorStop(0, '#001a33'); grd.addColorStop(0.5, '#003366'); grd.addColorStop(1, '#001a33');
+            grd.addColorStop(0, '#001a33'); grd.addColorStop(1, '#001a33');
             x.fillStyle = grd; x.fillRect(0,0,1024,512);
             x.strokeStyle = 'rgba(41, 151, 255, 0.2)'; x.lineWidth=1;
             for(let i=0; i<1024; i+=40) { x.beginPath(); x.moveTo(i,0); x.lineTo(i,512); x.stroke(); }
             x.fillStyle = '#b8860b'; x.fillRect(0, 450, 1024, 20);
             x.fillStyle='#fff'; x.font="900 80px Arial"; x.fillText("ATÚN ENLATADO", 50, 150);
-            x.fillStyle='#4db8ff'; x.font="600 40px Arial"; x.fillText("LOMOS EN ACEITE", 50, 210);
-            x.fillStyle='#ccc'; x.font="20px monospace"; x.fillText("PESO NETO: 170g | LOTE: 2025-A", 50, 420);
+            x.fillStyle='#ccc'; x.font="20px monospace"; x.fillText("PESO NETO: 170g", 50, 420);
             const t = new THREE.CanvasTexture(c); t.anisotropy=16; return t;
         }
+        
+        // --- REALISTIC MEAT TEXTURE ---
         function createMeatTexture() {
-            const c = document.createElement('canvas'); c.width=256; c.height=256;
-            const x = c.getContext('2d');
-            x.fillStyle='#e08e79'; x.fillRect(0,0,256,256);
-            for(let i=0; i<5000; i++) { x.fillStyle = Math.random()>0.5?'#d07e69':'#f09e89'; x.beginPath(); x.arc(Math.random()*256, Math.random()*256, Math.random()*2+1, 0, Math.PI*2); x.fill(); }
+            const c = document.createElement('canvas'); c.width=512; c.height=512;
+            const x = c.getContext('2d'); 
+            x.fillStyle='#ff7070'; x.fillRect(0,0,512,512);
+            for(let i=0; i<100000; i++) { 
+                // Color variation for fibers
+                const val = Math.random();
+                x.fillStyle = val > 0.7 ? '#ff9999' : (val < 0.3 ? '#cc5555' : '#ff6666'); 
+                x.beginPath(); 
+                // Elongated dots to simulate fibers
+                x.ellipse(Math.random()*512, Math.random()*512, 1, 3, Math.random()*Math.PI, 0, Math.PI*2);
+                x.fill(); 
+            }
+            // Add some oil sheen details
+            for(let i=0; i<500; i++) {
+                x.fillStyle = 'rgba(255, 255, 200, 0.1)';
+                x.beginPath();
+                x.arc(Math.random()*512, Math.random()*512, Math.random()*20, 0, Math.PI*2);
+                x.fill();
+            }
             return new THREE.CanvasTexture(c);
         }
 
-        // --- 3. MODELADO ---
-        const mainGroup = new THREE.Group();
-        scene.add(mainGroup);
+        const mainGroup = new THREE.Group(); scene.add(mainGroup);
         const metalMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3, metalness: 0.8, bumpMap: createMetalTex(), bumpScale: 0.005 });
-        const meatMat = new THREE.MeshStandardMaterial({ map: createMeatTexture(), roughness: 0.8, color: 0xffcccc });
+        metalMat.emissive = new THREE.Color(0x000000); 
+        const meatMat = new THREE.MeshStandardMaterial({ map: createMeatTexture(), roughness: 0.6, color: 0xffcccc });
 
-        // LATA
+        // GROUPS
         const canGroup = new THREE.Group();
+        const bodyGroup = new THREE.Group(); 
+        
         const canBody = new THREE.Mesh(new THREE.CylinderGeometry(0.99, 0.99, 1.0, 64), metalMat); canBody.castShadow = true;
-        const rimGeo = new THREE.TorusGeometry(1, 0.03, 16, 64);
-        const rimTop = new THREE.Mesh(rimGeo, metalMat); rimTop.position.y = 0.5; rimTop.rotation.x = Math.PI/2;
-        const rimBot = new THREE.Mesh(rimGeo, metalMat); rimBot.position.y = -0.5; rimBot.rotation.x = Math.PI/2;
+        const rimTop = new THREE.Mesh(new THREE.TorusGeometry(1, 0.03, 16, 64), metalMat); rimTop.position.y = 0.5; rimTop.rotation.x = Math.PI/2;
+        const rimBot = new THREE.Mesh(new THREE.TorusGeometry(1, 0.03, 16, 64), metalMat); rimBot.position.y = -0.5; rimBot.rotation.x = Math.PI/2;
+        
+        // Meat filled almost to top
+        const meat = new THREE.Mesh(new THREE.CylinderGeometry(0.97, 0.97, 0.92, 32), meatMat);
+        meat.position.y = 0.02; 
+        
         const lidGroup = new THREE.Group();
-        const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.02, 64), metalMat); lid.position.y = 0.48;
+        const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.02, 64), metalMat);
         const tabGroup = new THREE.Group();
         const tabRing = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.015, 16, 32), metalMat); tabRing.rotation.x = Math.PI/2; tabRing.position.x = 0.35;
         const tabBase = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.01, 0.12), metalMat); tabBase.position.x = 0.15;
-        tabGroup.add(tabRing, tabBase); tabGroup.position.set(0, 0.51, 0); tabGroup.rotation.y = 0.5;
-        lidGroup.add(lid, tabGroup);
-        const meat = new THREE.Mesh(new THREE.CylinderGeometry(0.97, 0.97, 0.9, 32), meatMat);
-        const labelGeo = new THREE.CylinderGeometry(1.01, 1.01, 0.92, 64, 1, true);
+        tabGroup.add(tabRing, tabBase); tabGroup.position.set(0, 0.05, 0); tabGroup.rotation.y = 0.5;
+        lidGroup.add(lid, tabGroup); lidGroup.position.y = 0.5; 
+
+        bodyGroup.add(canBody, rimTop, rimBot, meat);
+        
+        // --- PEELABLE LABEL LOGIC (RESTORED MAIN.HTML MATH) ---
+        const segW = 80; const segH = 1;
+        const labelGeo = new THREE.PlaneGeometry(Math.PI * 2.05, 0.92, segW, segH);
         const labelMat = new THREE.MeshStandardMaterial({ map: createHoloLabel(), transparent: true, side: THREE.DoubleSide, roughness: 0.4, metalness: 0.2 });
-        const labelMesh = new THREE.Mesh(labelGeo, labelMat); labelMesh.rotation.y = -Math.PI/2;
-        canGroup.add(canBody, rimTop, rimBot, lidGroup, meat, labelMesh);
+        const labelMesh = new THREE.Mesh(labelGeo, labelMat);
+        
+        // Use initial position attribute as reference to avoid accumulation errors
+        const basePos = labelGeo.attributes.position.clone();
+
+        function updateLabel(val) {
+            const pos = labelGeo.attributes.position;
+            const radius = 1.01;
+            
+            // STRICT RESET
+            if(val <= 0.001) {
+                // Map plane to cylinder purely
+                for(let i=0; i < pos.count; i++) {
+                    const u = (i % (segW + 1)) / segW;
+                    const angle = u * Math.PI * 2 + Math.PI; 
+                    const y = basePos.getY(i);
+                    pos.setXYZ(i, Math.sin(angle) * radius, y, Math.cos(angle) * radius);
+                }
+                pos.needsUpdate = true;
+                labelGeo.computeVertexNormals();
+                return;
+            }
+
+            // PEEL LOGIC (Main.html style)
+            const peelStart = THREE.MathUtils.lerp(1.0, 0.5, val); // Peel threshold
+            
+            for(let i=0; i < pos.count; i++) {
+                const u = (i % (segW + 1)) / segW; // 0 to 1
+                const angle = u * Math.PI * 2 + Math.PI;
+                const yBase = basePos.getY(i);
+                
+                // We use 'u' to determine peeling instead of angle for consistency with main.html
+                // u goes 0->1. We peel from 1 backwards.
+                
+                let x, z, y;
+                
+                if (u < peelStart) {
+                    // Attached part
+                    // Recalculate cylinder pos to ensure no drift
+                    x = Math.sin(angle) * radius;
+                    z = Math.cos(angle) * radius;
+                    y = yBase;
+                } else {
+                    // Peeled part
+                    // Calculate "hinge" point at peelStart
+                    const hingeU = peelStart;
+                    const hingeAngle = hingeU * Math.PI * 2 + Math.PI;
+                    
+                    const dist = (u - peelStart) * 4 * val; // Distance from hinge
+                    
+                    // Base direction (tangent)
+                    const tanX = Math.cos(hingeAngle); 
+                    const tanZ = -Math.sin(hingeAngle);
+                    
+                    // Hinge Pos
+                    const hX = Math.sin(hingeAngle) * radius;
+                    const hZ = Math.cos(hingeAngle) * radius;
+                    
+                    // Curve out
+                    x = hX + tanX * dist + (Math.cos(hingeAngle)*dist*0.2);
+                    z = hZ + tanZ * dist - (Math.sin(hingeAngle)*dist*0.2);
+                    y = yBase + Math.sin(dist*2)*0.2*val;
+                }
+                
+                pos.setXYZ(i, x, y, z);
+            }
+            pos.needsUpdate = true;
+            labelGeo.computeVertexNormals();
+        }
+        updateLabel(0); 
+
+        // Label must be child of bodyGroup to explode with it later
+        bodyGroup.add(labelMesh);
+
+        canGroup.add(bodyGroup, lidGroup);
+        canGroup.position.set(-2.2, 0, 1.5);
+        canGroup.scale.set(1.2, 1.2, 1.2);
         mainGroup.add(canGroup);
-        canGroup.position.set(-2.2, 0, 1.5); canGroup.scale.set(1.2, 1.2, 1.2);
 
         // RACK
         const rackGroup = new THREE.Group();
         const rackMat = new THREE.MeshStandardMaterial({ color: 0xe67e22, roughness: 0.7 }); 
         const postGeo = new THREE.BoxGeometry(0.15, 6, 0.15);
-        const p1 = new THREE.Mesh(postGeo, rackMat); p1.position.set(-2, 0, -1);
-        const p2 = new THREE.Mesh(postGeo, rackMat); p2.position.set(2, 0, -1);
-        const beamGeo = new THREE.BoxGeometry(4.2, 0.1, 0.1);
-        const b1 = new THREE.Mesh(beamGeo, rackMat); b1.position.set(0, -1, -1);
-        const b2 = new THREE.Mesh(beamGeo, rackMat); b2.position.set(0, 1, -1);
+        const shelfGeo = new THREE.BoxGeometry(4.2, 0.1, 1.5);
         const boxGeo = new THREE.BoxGeometry(0.8, 0.6, 0.8);
         const boxMat = new THREE.MeshStandardMaterial({ color: 0x8d6e63 });
-        const box1 = new THREE.Mesh(boxGeo, boxMat); box1.position.set(-1.2, -0.65, -1);
-        const box2 = new THREE.Mesh(boxGeo, boxMat); box2.position.set(0, -0.65, -1);
-        const box3 = new THREE.Mesh(boxGeo, boxMat); box3.position.set(1.2, -0.65, -1);
-        rackGroup.add(p1, p2, b1, b2, box1, box2, box3);
-        rackGroup.position.set(0, -20, 0);
+
+        const p1 = new THREE.Mesh(postGeo, rackMat); p1.position.set(-2, 0, -1);
+        const p2 = new THREE.Mesh(postGeo, rackMat); p2.position.set(2, 0, -1);
+        const shelf = new THREE.Mesh(shelfGeo, rackMat); shelf.position.set(0, -0.65, -1);
+        
+        const box1 = new THREE.Mesh(boxGeo, boxMat); box1.position.set(-1.2, -0.25, -1);
+        const box2 = new THREE.Mesh(boxGeo, boxMat); box2.position.set(0, -0.25, -1);
+        const box3 = new THREE.Mesh(boxGeo, boxMat); box3.position.set(1.2, -0.25, -1);
+
+        rackGroup.add(p1, p2, shelf, box1, box2, box3); 
+        rackGroup.position.set(0, -20, 0); 
         mainGroup.add(rackGroup);
 
-        // --- 4. LUCES ---
+        // LIGHTS
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); scene.add(ambientLight);
         const spotLight = new THREE.SpotLight(0xffffff, 5); spotLight.position.set(5, 5, 5); spotLight.castShadow = true; scene.add(spotLight);
         const coloredLight = new THREE.PointLight(0x2997ff, 0, 10); coloredLight.position.set(-3, 2, 2); scene.add(coloredLight);
 
-        // --- 5. ANIMACIÓN ---
+        // --- 5. ANIMATION (GSAP) ---
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.utils.toArray('.content-panel').forEach(panel => {
             gsap.to(panel, { opacity: 1, y: 0, duration: 0.5, scrollTrigger: { trigger: panel.parentElement, start: "top 60%", end: "bottom 40%", toggleActions: "play reverse play reverse" } });
         });
 
-        // Timeline Maestra ajustada con scrub más suave para la sección larga
         const tl = gsap.timeline({ scrollTrigger: { trigger: "#scroll-wrapper", start: "top top", end: "bottom bottom", scrub: 1.2 } });
+        const peelObj = { val: 0 };
 
-        // 1. PRODUCTO
-        tl.to(canGroup.position, { x: 2.8, y: 0, z: 1 }, 1)
+        // 1. PRODUCTO (Lata Abre + Etiqueta Pela Parcialmente)
+        tl.to(canGroup.position, { x: 2.8, y: 0, z: 1 }, 1) 
           .to(canGroup.scale, { x: 1, y: 1, z: 1 }, 1)
-          .to(canGroup.rotation, { x: 0.5, y: -0.8, z: 0 }, 1)
-          .to(lidGroup.rotation, { x: -Math.PI / 1.8 }, 1) 
-          .to(lidGroup.position, { y: 1.0, z: -0.5 }, 1)
-          .to(tabGroup.rotation, { x: -Math.PI / 3 }, 1);
+          .to(canGroup.rotation, { x: 0.5, y: -0.5, z: 0 }, 1) 
+          .to(lidGroup.rotation, { x: -Math.PI / 1.5 }, 1) // Open Lid
+          .to(lidGroup.position, { y: 1.2, z: -0.5 }, 1)
+          .to(peelObj, { val: 0.4, onUpdate: () => updateLabel(peelObj.val) }, 1); // Start peel
 
-        // 2. HISTAMINA
-        tl.to(canGroup.position, { x: -2.8, y: 0, z: 1 }, 2)
+        // 2. HISTAMINA (Cierra Tapa, Pela Full, Roja)
+        tl.to(canGroup.position, { x: -2.8, y: 0, z: 1 }, 2) 
+          .to(lidGroup.rotation, { x: 0 }, 2) // Close Lid
+          .to(lidGroup.position, { y: 0.5, z: 0 }, 2)
           .to(canGroup.rotation, { x: 0, y: 0, z: 0 }, 2)
-          .to(lidGroup.rotation, { x: 0 }, 2)
-          .to(lidGroup.position, { y: 0.48, z: 0 }, 2)
-          .to(tabGroup.rotation, { x: 0 }, 2)
+          .to(peelObj, { val: 0.8, onUpdate: () => updateLabel(peelObj.val) }, 2) // Full Peel
           .to(coloredLight, { intensity: 8 }, 2)
-          .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 2);
+          .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 2)
+          .to(metalMat.emissive, { r: 0.5, g: 0, b: 0 }, 2);
 
-        // 3. FEFO
-        tl.to(canGroup.position, { x: 6, y: 2 }, 3) 
-          .to(rackGroup.position, { x: -2.2, y: 0, z: -1 }, 3)
-          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3);
+        // 3. FEFO (Cierra Etiqueta, Rota a Rack)
+        tl.to(canGroup.position, { x: 2.8, y: 0.5, z: 0 }, 3) 
+          .to(peelObj, { val: 0, onUpdate: () => updateLabel(peelObj.val) }, 3) // Close Label Completely (Triggers reset)
+          .to(metalMat.emissive, { r: 0, g: 0, b: 0 }, 3) 
+          .to(canGroup.rotation, { z: Math.PI/2, y: 0, x: 0 }, 3) 
+          .to(rackGroup.position, { x: 2.5, y: 0, z: 0 }, 3) 
+          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3); 
 
-        // 4. TRANSPORTE
-        tl.to(rackGroup.position, { y: 20 }, 4)
-          .to(canGroup.position, { x: 2.8, y: 0, z: 0 }, 4)
-          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4);
+        // 4. TRANSPORTE (Exploded View)
+        tl.to(rackGroup.position, { y: 20 }, 4) 
+          .to(canGroup.position, { x: -2.0, y: 0, z: 0 }, 4) 
+          .to(canGroup.rotation, { z: Math.PI/6, y: 0.5, x: 0.2 }, 4) 
+          // Explode
+          .to(lidGroup.position, { y: 1.5 }, 4)
+          .to(bodyGroup.position, { y: -0.5 }, 4)
+          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4); 
 
-        // 5. RIESGOS (NUEVA ESCENA)
-        // Lata se va lejos, luz morada
-        tl.to(canGroup.position, { x: 0, y: -10, z: -5 }, 5)
-          .to(coloredLight.color, { r: 0.8, g: 0.2, b: 1 }, 5);
+        // 5. RIESGOS
+        tl.to(canGroup.position, { x: 0, y: -15, z: -5 }, 5)
+          .to(lidGroup.position, { y: 0.5 }, 5) 
+          .to(bodyGroup.position, { y: 0 }, 5);
 
-        // 6. FINAL - Ajuste el tiempo de inicio para dar espacio a la lectura de riesgos
-        tl.to(canGroup.position, { x: 0, y: 0, z: 2.5 }, 6.5) // Retrasado a 6.5 para dar más tiempo en sec 5
-          .to(canGroup.rotation, { x: Math.PI/2, y: 0, z: 0 }, 6.5)
+        // 6. FINAL
+        tl.to(canGroup.position, { x: 0, y: 0, z: 2.5 }, 6.5)
+          .to(canGroup.rotation, { x: 0.5, y: 0, z: 0 }, 6.5)
           .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }, 6.5);
 
         function animate() {
             requestAnimationFrame(animate);
-            if (!gsap.isTweening(canGroup.rotation)) { canGroup.rotation.y += 0.002; }
+            if (!gsap.isTweening(canGroup.rotation)) canGroup.rotation.y += 0.002;
             renderer.render(scene, camera);
         }
 
@@ -623,7 +681,6 @@
              let current = '';
              const scrollY = window.scrollY;
              const h = window.innerHeight;
-             // Ajuste de detección para secciones variables
              sections.forEach((sec, i) => { const top = sec.offsetTop; if(scrollY >= top - h/3) current = i; });
              dots.forEach((dot, i) => { if(i === current) dot.classList.add('active'); else dot.classList.remove('active'); });
              
