@@ -24,8 +24,12 @@
                         'brand-blue': '#2997ff',
                         'brand-red': '#ff453a',
                         'brand-gold': '#ffd700',
-                        'glass-bg': 'rgba(5, 5, 8, 0.95)', /* Fondo casi sólido para máxima legibilidad */
-                        'glass-border': 'rgba(255, 255, 255, 0.2)'
+                        'glass-bg': 'rgba(5, 5, 8, 0.95)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                        'risk-low': '#32d74b',
+                        'risk-med': '#ffd60a', /* Amarillo más visible */
+                        'risk-high': '#ff9f0a', /* Naranja */
+                        'risk-crit': '#ff453a'  /* Rojo */
                     }
                 }
             }
@@ -45,8 +49,7 @@
             pointer-events: none;
         }
 
-        /* --- PANELES DE TEXTO --- */
-        /* Estrictamente limitados al 45% del ancho para no tocar la lata */
+        /* --- PANELES --- */
         .content-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(24px);
@@ -62,55 +65,61 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
         
-        /* Panel DERECHA (Lata Izquierda) */
         .panel-right {
-            margin-left: auto; /* Empujar todo a la derecha */
-            margin-right: 5%; /* Margen de seguridad */
+            margin-left: auto; margin-right: 5%;
             border-radius: 1rem 0 0 1rem;
             border-left: 1px solid var(--glass-border);
             border-right: 3px solid var(--accent-color, #2997ff);
             text-align: right;
         }
 
-        /* Panel IZQUIERDA (Lata Derecha) */
-        .panel-left {
-            margin-right: auto; /* Empujar todo a la izquierda */
-            margin-left: 5%; /* Margen de seguridad */
+        .panel-left { margin-right: auto; margin-left: 5%; }
+
+        /* Panel Full Width para Matriz - AJUSTADO PARA EVITAR CORTE */
+        .panel-full {
+            width: 90%; max-width: 1200px;
+            margin: 0 auto;
+            display: flex; gap: 2rem;
+            border-radius: 1rem;
+            border-left: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+            border-top: 3px solid var(--accent-color, #2997ff);
+            flex-direction: row;
+            align-items: stretch;
+            /* Altura dinámica pero con mínimo alto */
+            min-height: 80vh; 
+            height: auto;
+            padding-bottom: 2rem; /* Espacio extra abajo */
         }
 
-        /* Tipografía */
+        @media (max-width: 1024px) {
+            .panel-full { flex-direction: column; height: auto; }
+        }
+
         h1, h2 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
         p { font-family: 'Inter', sans-serif; line-height: 1.6; color: #d1d1d6; font-size: 0.95rem; }
         strong { color: #fff; font-weight: 600; }
         
         /* Grid de Datos */
         .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+            margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
         }
         .kpi-item span:first-child { display: block; font-size: 0.7rem; text-transform: uppercase; color: #86868b; letter-spacing: 1px; margin-bottom: 4px; }
-        .kpi-item span:last-child { display: block; font-size: 1.25rem; font-weight: 700; color: #fff; font-family: 'Space Grotesk', sans-serif; }
+        .kpi-item span:last-child { display: block; font-size: 1.25rem; font-weight: 700; color: #fff; }
 
-        /* Layout de Scroll */
+        /* Scroll Sections - AJUSTADO */
         .scroll-section {
-            height: 100vh;
-            position: relative;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            /* Padding 0 porque controlamos margenes en los paneles */
-            padding: 0; 
+            /* Permitir que la sección crezca si el contenido es largo */
+            min-height: 100vh; 
+            height: auto; 
+            position: relative; z-index: 10;
+            display: flex; align-items: center; padding: 2rem 0; /* Padding vertical para no pegar bordes */
             pointer-events: none; 
-            /* Borde sutil para guiar visualmente en debug (opcional) */
-            /* border-bottom: 1px solid rgba(255,255,255,0.02); */
         }
         .scroll-section > * { pointer-events: auto; }
 
-        /* Navegación */
+        /* Nav */
         .nav-dots {
             position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 15px; z-index: 50;
@@ -121,36 +130,70 @@
         }
         .dot.active { background: #2997ff; transform: scale(1.5); box-shadow: 0 0 10px #2997ff; }
 
-        /* Líneas Decorativas */
         .hud-line {
             height: 2px; width: 60px; margin: 20px 0;
             background: linear-gradient(90deg, currentColor, transparent);
         }
-        .panel-right .hud-line { 
-            background: linear-gradient(-90deg, currentColor, transparent); 
-            margin-left: auto;
+        .panel-right .hud-line { background: linear-gradient(-90deg, currentColor, transparent); margin-left: auto; }
+
+        /* --- ESTILOS MATRIZ RIESGO --- */
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 4px;
+            aspect-ratio: 1/1;
+            width: 100%;
+            max-width: 400px; /* Un poco más pequeño para encajar mejor */
+            margin: 0 auto;
         }
+        .heat-cell {
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: bold; color: rgba(0,0,0,0.6);
+            transition: all 0.2s;
+            position: relative;
+        }
+        .heat-cell:hover { transform: scale(1.1); z-index: 10; box-shadow: 0 0 15px rgba(0,0,0,0.8); color: #fff; cursor: pointer; border: 1px solid white; }
+        
+        .risk-list {
+            /* Scroll interno explícito y altura máxima relativa */
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 10px;
+            flex: 1;
+        }
+        .risk-item {
+            background: rgba(255,255,255,0.03);
+            border-left: 4px solid transparent; /* Para indicador de color */
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+        .risk-item:hover { background: rgba(255,255,255,0.08); }
+        
+        .risk-badge {
+            font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; border: 1px solid currentColor;
+        }
+        
+        /* Custom Scrollbar */
+        .risk-list::-webkit-scrollbar { width: 6px; }
+        .risk-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        .risk-list::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
 
         #loader { transition: opacity 0.8s ease; }
     </style>
 </head>
 <body>
 
-    <!-- Pantalla de Carga -->
     <div id="loader" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
         <div class="font-display font-bold text-5xl tracking-tighter text-white mb-4">LOGÍSTICA<span class="text-brand-blue">ATÚN</span></div>
-        <div class="flex gap-2 items-center">
-            <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce"></div>
-            <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-100"></div>
-            <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-200"></div>
-        </div>
-        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Generando Entorno 3D...</div>
+        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Datos...</div>
     </div>
 
-    <!-- Canvas 3D -->
     <div id="canvas-container"></div>
 
-    <!-- Encabezado Fijo -->
     <div class="fixed top-0 w-full p-6 z-40 flex justify-between items-start pointer-events-none mix-blend-plus-lighter">
         <div>
             <div class="text-[10px] font-mono text-brand-blue mb-1 border border-brand-blue/30 inline-block px-2 py-0.5 rounded backdrop-blur-md uppercase">Informe Noviembre 2025</div>
@@ -165,7 +208,6 @@
         </div>
     </div>
 
-    <!-- Navegación Lateral -->
     <div class="nav-dots">
         <div class="dot active" onclick="scrollToSec(0)"></div>
         <div class="dot" onclick="scrollToSec(1)"></div>
@@ -173,12 +215,12 @@
         <div class="dot" onclick="scrollToSec(3)"></div>
         <div class="dot" onclick="scrollToSec(4)"></div>
         <div class="dot" onclick="scrollToSec(5)"></div>
+        <div class="dot" onclick="scrollToSec(6)"></div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <div id="scroll-wrapper">
         
-        <!-- 0. INTRODUCCIÓN (Lata IZQUIERDA Grande - Texto DERECHA) -->
+        <!-- 0. INTRODUCCIÓN -->
         <section class="scroll-section" id="sec-0">
             <div class="content-panel panel-right" style="--accent-color: #2997ff;">
                 <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Introducción</span>
@@ -204,7 +246,7 @@
             </div>
         </section>
 
-        <!-- 1. PRODUCTO (Lata DERECHA - Texto IZQUIERDA) -->
+        <!-- 1. PRODUCTO -->
         <section class="scroll-section" id="sec-1">
             <div class="content-panel panel-left" style="--accent-color: #32d74b;">
                 <span class="text-xs font-mono text-green-400 tracking-widest uppercase mb-2 block">Caracterización</span>
@@ -213,23 +255,14 @@
                 <p class="mb-4">
                     La logística inicia con la biología: <strong>Skipjack</strong> para volumen masivo y <strong>Yellowfin</strong> para premium. 
                 </p>
-                <p class="mb-4">
-                    El envase de hojalata garantiza esterilidad y una vida útil de hasta <strong>5 años</strong> sin refrigeración.
-                </p>
                 <div class="kpi-grid">
-                    <div class="kpi-item">
-                        <span>Proteína</span>
-                        <span>20-30%</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span>Vida Útil</span>
-                        <span>5 Años</span>
-                    </div>
+                    <div class="kpi-item"><span>Proteína</span><span>20-30%</span></div>
+                    <div class="kpi-item"><span>Vida Útil</span><span>5 Años</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. RIESGO HISTAMINA (Lata IZQUIERDA - Texto DERECHA) -->
+        <!-- 2. RIESGO HISTAMINA -->
         <section class="scroll-section" id="sec-2">
             <div class="content-panel panel-right" style="--accent-color: #ff453a;">
                 <span class="text-xs font-mono text-red-500 tracking-widest uppercase mb-2 block">Punto Crítico</span>
@@ -241,74 +274,82 @@
                 <div class="bg-red-900/20 border border-red-500/50 p-4 rounded-lg mb-4 flex items-start gap-3">
                     <div class="text-2xl">⚠️</div>
                     <p class="text-red-200 text-xs leading-relaxed m-0">
-                        <strong>ALERTA CRÍTICA:</strong> Exposición >4°C prolongada = Lote destruido. Riesgo sanitario irreversible.
+                        <strong>ALERTA CRÍTICA:</strong> Exposición >4°C prolongada = Lote destruido.
                     </p>
-                </div>
-                <div class="kpi-grid">
-                    <div class="kpi-item">
-                        <span>Límite Legal</span>
-                        <span>50 PPM</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span>Temp. Máx</span>
-                        <span>4°C</span>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 3. ALMACENAMIENTO FEFO (Estiba IZQUIERDA - Texto DERECHA) -->
+        <!-- 3. ALMACENAMIENTO FEFO -->
         <section class="scroll-section" id="sec-3">
             <div class="content-panel panel-right" style="--accent-color: #ff9f0a;">
                 <span class="text-xs font-mono text-orange-400 tracking-widest uppercase mb-2 block">Inventarios</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Estrategia FEFO</h2>
                 <div class="hud-line text-orange-400"></div>
                 <p class="mb-4">
-                    Se aplica estrictamente el sistema <strong>FEFO</strong> (First Expired, First Out) para garantizar que los lotes con vencimiento más próximo salgan primero.
-                </p>
-                <p>
-                    Control estricto de humedad (<75%) para evitar la "lluvia de contenedores" y oxidación de latas en bodega.
+                    Se aplica estrictamente el sistema <strong>FEFO</strong> (First Expired, First Out).
                 </p>
                 <div class="kpi-grid">
-                    <div class="kpi-item">
-                        <span>Humedad</span>
-                        <span>< 75%</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span>Estrategia</span>
-                        <span>FEFO</span>
-                    </div>
+                    <div class="kpi-item"><span>Humedad</span><span>< 75%</span></div>
+                    <div class="kpi-item"><span>Estrategia</span><span>FEFO</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. TRANSPORTE (Lata DERECHA - Texto IZQUIERDA) -->
+        <!-- 4. TRANSPORTE -->
         <section class="scroll-section" id="sec-4">
             <div class="content-panel panel-left" style="--accent-color: #2997ff;">
                 <span class="text-xs font-mono text-brand-blue tracking-widest uppercase mb-2 block">Distribución</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Densidad de Carga</h2>
                 <div class="hud-line text-brand-blue"></div>
                 <p class="mb-4">
-                    Es "Carga Seca" de alta densidad. El límite es el peso por eje, no el volumen.
+                    Se usan casi exclusivamente contenedores de <strong>20 pies</strong> debido a la alta densidad de estiba (1.68 m³/ton).
                 </p>
-                <p class="mb-4">
-                    Se usan casi exclusivamente contenedores de <strong>20 pies</strong>. Un contenedor de 40 pies se llenaría de aire antes de alcanzar su peso máximo.
-                </p>
-                <div class="kpi-grid">
-                    <div class="kpi-item">
-                        <span>Factor Estiba</span>
-                        <span>1.68 m³/ton</span>
+            </div>
+        </section>
+
+        <!-- 5. MATRIZ DE RIESGOS (NUEVA SECCIÓN) -->
+        <section class="scroll-section justify-center" id="sec-5">
+            <div class="content-panel panel-full" style="--accent-color: #bf5af2;">
+                <!-- Columna Izquierda: Heatmap -->
+                <div class="w-full lg:w-1/2 flex flex-col justify-center border-r border-white/10 pr-4">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-xs font-mono text-purple-400 uppercase tracking-widest">Matriz de Calor</span>
+                        <div class="flex gap-2 text-[9px] text-gray-400">
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 bg-[#32d74b] rounded-full"></span>Bajo</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 bg-[#ffd60a] rounded-full"></span>Medio</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 bg-[#ff9f0a] rounded-full"></span>Alto</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 bg-[#ff453a] rounded-full"></span>Critico</span>
+                        </div>
                     </div>
-                    <div class="kpi-item">
-                        <span>Equipo</span>
-                        <span>20' Dry</span>
+                    
+                    <div class="relative w-full flex justify-center">
+                        <!-- Y Axis Label -->
+                        <div class="absolute -left-4 top-1/2 -translate-y-1/2 -rotate-90 text-[10px] text-gray-500 tracking-widest font-bold">PROBABILIDAD</div>
+                        
+                        <div class="heatmap-grid" id="risk-heatmap">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                    <!-- X Axis Label -->
+                    <div class="text-center mt-3 text-[10px] text-gray-500 tracking-widest font-bold">IMPACTO</div>
+                </div>
+
+                <!-- Columna Derecha: Lista -->
+                <div class="w-full lg:w-1/2 flex flex-col h-full pl-4">
+                    <h3 class="text-xl font-bold text-white mb-4 font-display flex items-center justify-between">
+                        Listado de Riesgos
+                        <span class="text-xs bg-white/10 px-2 py-1 rounded text-gray-400">23 Total</span>
+                    </h3>
+                    <div class="risk-list" id="risk-list-container">
+                        <!-- Items generated by JS -->
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 5. CIERRE (Centro) -->
-        <section class="scroll-section justify-center text-center" id="sec-5">
+        <!-- 6. CIERRE -->
+        <section class="scroll-section justify-center text-center" id="sec-6">
             <div class="content-panel" style="--accent-color: #ffd700; text-align: center; border-right: 3px solid #ffd700; border-left: 3px solid #ffd700; max-width: 700px; width: 80%; margin: 0 auto;">
                 <span class="text-xs font-mono text-yellow-400 tracking-widest uppercase mb-2 block">Conclusión</span>
                 <h2 class="text-4xl font-bold text-white mb-4">Logística Competitiva</h2>
@@ -331,13 +372,103 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
+        // --- DATOS DE RIESGO ---
+        const riskData = [
+            { id: 1, name: "Escasez MP", desc: "Reducción capacidad productiva", prob: 3, imp: 4, plan: "Contratos múltiples, compras anticipadas" },
+            { id: 2, name: "Fenómenos Climáticos", desc: "El Niño/La Niña. Afecta pesca", prob: 4, imp: 4, plan: "Inventarios estratégicos, diversificación" },
+            { id: 3, name: "Precio Acero", desc: "Incremento costo empaque", prob: 3, imp: 4, plan: "Acuerdos de precio a largo plazo" },
+            { id: 4, name: "Cambios Regulatorios", desc: "Ajustes BPM/INVIMA/FDA", prob: 2, imp: 4, plan: "Auditorías, actualización HACCP" },
+            { id: 5, name: "Costo Combustible", desc: "Aumento costo logístico", prob: 3, imp: 3, plan: "Optimización rutas, carga consolidada" },
+            { id: 6, name: "Interrupciones Logísticas", desc: "Paros, bloqueos, puertos", prob: 3, imp: 4, plan: "Rutas alternas, puertos secundarios" },
+            { id: 7, name: "Cortes Energía", desc: "Paro producción/Riesgo sanitario", prob: 2, imp: 5, plan: "Plantas eléctricas, mtto preventivo" },
+            { id: 8, name: "Contaminación Micro", desc: "Riesgo recall y sanciones", prob: 1, imp: 5, plan: "HACCP intensivo, trazabilidad" },
+            { id: 9, name: "Unico Proveedor Envases", desc: "Paro total producción", prob: 2, imp: 5, plan: "Homologación proveedores" },
+            { id: 10, name: "Fluctuación Dólar", desc: "Incremento costos importación", prob: 3, imp: 3, plan: "Coberturas cambiarias" },
+            { id: 11, name: "Crisis Económicas", desc: "Menor consumo premium", prob: 2, imp: 3, plan: "Portafolio económico" },
+            { id: 12, name: "Cambio Preferencias", desc: "Menor demanda enlatados", prob: 2, imp: 3, plan: "Innovación, campañas educativas" },
+            { id: 13, name: "Requisitos Ambientales", desc: "Inversión sostenibilidad", prob: 2, imp: 4, plan: "Envases reciclables, certificaciones" },
+            { id: 14, name: "Escasez Aceites", desc: "Aumento costos producción", prob: 3, imp: 3, plan: "Diversificación proveedores" },
+            { id: 15, name: "Riesgos Geopolíticos", desc: "Escasez global", prob: 2, imp: 4, plan: "Mercados alternos" },
+            { id: 16, name: "Error Calidad", desc: "Defectos mercado, Recall", prob: 3, imp: 4, plan: "Capacitación, sensores" },
+            { id: 17, name: "Error Térmico", desc: "Riesgo microbiológico severo", prob: 2, imp: 5, plan: "Automatización, alarmas" },
+            { id: 18, name: "Error Etiquetado", desc: "Sanciones, pérdida trazabilidad", prob: 3, imp: 4, plan: "Escáneres, revisión cruzada" },
+            { id: 19, name: "Error Inventarios", desc: "Producto vencido (No FIFO)", prob: 3, imp: 3, plan: "ERP, auditorías" },
+            { id: 20, name: "Error Recepción MP", desc: "Ingreso fuera de especificación", prob: 3, imp: 4, plan: "Hojas técnicas, rechazo" },
+            { id: 21, name: "Error Despacho", desc: "Retrasos, devoluciones", prob: 4, imp: 3, plan: "Checklists, RFID" },
+            { id: 22, name: "Mala Manipulación", desc: "Latas abolladas", prob: 3, imp: 3, plan: "Capacitación, señalización" },
+            { id: 23, name: "Error Administrativo", desc: "Sobreproducción/Faltantes", prob: 3, imp: 3, plan: "Doble verificación" }
+        ];
+
+        // --- RENDERIZAR RIESGOS ---
+        const heatmapEl = document.getElementById('risk-heatmap');
+        const listEl = document.getElementById('risk-list-container');
+
+        // Generar Grid 5x5
+        // Rows: 5 down to 1 (Probabilidad)
+        // Cols: 1 to 5 (Impacto)
+        for (let p = 5; p >= 1; p--) {
+            for (let i = 1; i <= 5; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'heat-cell';
+                
+                // Color Logic based on P x I matrix (Typical Risk Matrix colors)
+                const riskVal = p * i;
+                let colorCode = '';
+                if(riskVal >= 15) colorCode = '#ff453a'; // Rojo
+                else if(riskVal >= 8) colorCode = '#ff9f0a'; // Naranja
+                else if(riskVal >= 4) colorCode = '#ffd60a'; // Amarillo
+                else colorCode = '#32d74b'; // Verde
+                
+                cell.style.backgroundColor = colorCode;
+
+                // Count risks in this cell
+                const itemsInCell = riskData.filter(r => r.prob === p && r.imp === i);
+                if (itemsInCell.length > 0) {
+                    cell.innerHTML = `<span class="bg-black/40 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs backdrop-blur-sm shadow-md border border-white/20">${itemsInCell.length}</span>`;
+                    
+                    // Tooltip más robusto
+                    const tooltipText = itemsInCell.map(r => `${r.id}. ${r.name}`).join('\n');
+                    cell.title = `Riesgos en P:${p} I:${i}\n${tooltipText}`;
+                }
+
+                heatmapEl.appendChild(cell);
+            }
+        }
+
+        // Generar Lista
+        riskData.forEach(r => {
+            const el = document.createElement('div');
+            el.className = 'risk-item';
+            
+            let badgeColor = 'text-[#32d74b] border-[#32d74b]';
+            let borderColor = '#32d74b';
+            let level = 'BAJO';
+            const val = r.prob * r.imp;
+            if(val >= 15) { badgeColor = 'text-[#ff453a] border-[#ff453a]'; borderColor = '#ff453a'; level = 'CRÍTICO'; }
+            else if(val >= 8) { badgeColor = 'text-[#ff9f0a] border-[#ff9f0a]'; borderColor = '#ff9f0a'; level = 'ALTO'; }
+            else if(val >= 4) { badgeColor = 'text-[#ffd60a] border-[#ffd60a]'; borderColor = '#ffd60a'; level = 'MEDIO'; }
+
+            el.style.borderLeftColor = borderColor;
+
+            el.innerHTML = `
+                <div class="flex justify-between items-start mb-1">
+                    <span class="text-sm font-bold text-white">${r.id}. ${r.name}</span>
+                    <span class="risk-badge border ${badgeColor}">${level} (${val})</span>
+                </div>
+                <p class="text-xs text-gray-400 mb-2">${r.desc}</p>
+                <div class="text-[10px] text-gray-500 bg-white/5 p-2 rounded">
+                    <strong class="text-gray-300">Plan:</strong> ${r.plan}
+                </div>
+            `;
+            listEl.appendChild(el);
+        });
+
+
         // --- 1. ESCENA 3D ---
         const scene = new THREE.Scene();
         scene.fog = new THREE.FogExp2(0x050505, 0.035);
-
         const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 0, 10);
-
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -351,13 +482,9 @@
             const c = document.createElement('canvas'); c.width=256; c.height=256;
             const x = c.getContext('2d');
             x.fillStyle='#999'; x.fillRect(0,0,256,256);
-            for(let i=0; i<10000; i++) {
-                x.fillStyle = Math.random()>0.5?'#aaa':'#888';
-                x.fillRect(Math.random()*256, Math.random()*256, 2, 1);
-            }
+            for(let i=0; i<10000; i++) { x.fillStyle = Math.random()>0.5?'#aaa':'#888'; x.fillRect(Math.random()*256, Math.random()*256, 2, 1); }
             return new THREE.CanvasTexture(c);
         }
-
         function createHoloLabel() {
             const c = document.createElement('canvas'); c.width=1024; c.height=512;
             const x = c.getContext('2d');
@@ -372,60 +499,40 @@
             x.fillStyle='#ccc'; x.font="20px monospace"; x.fillText("PESO NETO: 170g | LOTE: 2025-A", 50, 420);
             const t = new THREE.CanvasTexture(c); t.anisotropy=16; return t;
         }
-
         function createMeatTexture() {
             const c = document.createElement('canvas'); c.width=256; c.height=256;
             const x = c.getContext('2d');
             x.fillStyle='#e08e79'; x.fillRect(0,0,256,256);
-            for(let i=0; i<5000; i++) {
-                x.fillStyle = Math.random()>0.5?'#d07e69':'#f09e89';
-                x.beginPath(); x.arc(Math.random()*256, Math.random()*256, Math.random()*2+1, 0, Math.PI*2); x.fill();
-            }
+            for(let i=0; i<5000; i++) { x.fillStyle = Math.random()>0.5?'#d07e69':'#f09e89'; x.beginPath(); x.arc(Math.random()*256, Math.random()*256, Math.random()*2+1, 0, Math.PI*2); x.fill(); }
             return new THREE.CanvasTexture(c);
         }
 
         // --- 3. MODELADO ---
         const mainGroup = new THREE.Group();
         scene.add(mainGroup);
-
         const metalMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3, metalness: 0.8, bumpMap: createMetalTex(), bumpScale: 0.005 });
         const meatMat = new THREE.MeshStandardMaterial({ map: createMeatTexture(), roughness: 0.8, color: 0xffcccc });
 
         // LATA
         const canGroup = new THREE.Group();
-        const canBody = new THREE.Mesh(new THREE.CylinderGeometry(0.99, 0.99, 1.0, 64), metalMat);
-        canBody.castShadow = true;
+        const canBody = new THREE.Mesh(new THREE.CylinderGeometry(0.99, 0.99, 1.0, 64), metalMat); canBody.castShadow = true;
         const rimGeo = new THREE.TorusGeometry(1, 0.03, 16, 64);
         const rimTop = new THREE.Mesh(rimGeo, metalMat); rimTop.position.y = 0.5; rimTop.rotation.x = Math.PI/2;
         const rimBot = new THREE.Mesh(rimGeo, metalMat); rimBot.position.y = -0.5; rimBot.rotation.x = Math.PI/2;
-        
-        // Tapa (animable)
         const lidGroup = new THREE.Group();
-        const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.02, 64), metalMat);
-        lid.position.y = 0.48;
+        const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.02, 64), metalMat); lid.position.y = 0.48;
         const tabGroup = new THREE.Group();
-        const tabRing = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.015, 16, 32), metalMat);
-        tabRing.rotation.x = Math.PI/2; tabRing.position.x = 0.35;
-        const tabBase = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.01, 0.12), metalMat);
-        tabBase.position.x = 0.15;
-        tabGroup.add(tabRing, tabBase);
-        tabGroup.position.set(0, 0.51, 0); tabGroup.rotation.y = 0.5;
+        const tabRing = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.015, 16, 32), metalMat); tabRing.rotation.x = Math.PI/2; tabRing.position.x = 0.35;
+        const tabBase = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.01, 0.12), metalMat); tabBase.position.x = 0.15;
+        tabGroup.add(tabRing, tabBase); tabGroup.position.set(0, 0.51, 0); tabGroup.rotation.y = 0.5;
         lidGroup.add(lid, tabGroup);
-
-        // Contenido y Etiqueta
         const meat = new THREE.Mesh(new THREE.CylinderGeometry(0.97, 0.97, 0.9, 32), meatMat);
         const labelGeo = new THREE.CylinderGeometry(1.01, 1.01, 0.92, 64, 1, true);
         const labelMat = new THREE.MeshStandardMaterial({ map: createHoloLabel(), transparent: true, side: THREE.DoubleSide, roughness: 0.4, metalness: 0.2 });
-        const labelMesh = new THREE.Mesh(labelGeo, labelMat);
-        labelMesh.rotation.y = -Math.PI/2;
-
+        const labelMesh = new THREE.Mesh(labelGeo, labelMat); labelMesh.rotation.y = -Math.PI/2;
         canGroup.add(canBody, rimTop, rimBot, lidGroup, meat, labelMesh);
         mainGroup.add(canGroup);
-        
-        // *** CRÍTICO: POSICIONAMIENTO INICIAL FUERA DEL CENTRO ***
-        // Aseguramos que la lata empiece ya a la izquierda
-        canGroup.position.set(-2.2, 0, 1.5);
-        canGroup.scale.set(1.2, 1.2, 1.2);
+        canGroup.position.set(-2.2, 0, 1.5); canGroup.scale.set(1.2, 1.2, 1.2);
 
         // RACK
         const rackGroup = new THREE.Group();
@@ -442,91 +549,64 @@
         const box2 = new THREE.Mesh(boxGeo, boxMat); box2.position.set(0, -0.65, -1);
         const box3 = new THREE.Mesh(boxGeo, boxMat); box3.position.set(1.2, -0.65, -1);
         rackGroup.add(p1, p2, b1, b2, box1, box2, box3);
-        rackGroup.position.set(0, -20, 0); // Fuera de vista
+        rackGroup.position.set(0, -20, 0);
         mainGroup.add(rackGroup);
 
         // --- 4. LUCES ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-        scene.add(ambientLight);
-        const spotLight = new THREE.SpotLight(0xffffff, 5);
-        spotLight.position.set(5, 5, 5);
-        spotLight.castShadow = true;
-        scene.add(spotLight);
-        const coloredLight = new THREE.PointLight(0x2997ff, 0, 10);
-        coloredLight.position.set(-3, 2, 2);
-        scene.add(coloredLight);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); scene.add(ambientLight);
+        const spotLight = new THREE.SpotLight(0xffffff, 5); spotLight.position.set(5, 5, 5); spotLight.castShadow = true; scene.add(spotLight);
+        const coloredLight = new THREE.PointLight(0x2997ff, 0, 10); coloredLight.position.set(-3, 2, 2); scene.add(coloredLight);
 
         // --- 5. ANIMACIÓN ---
         gsap.registerPlugin(ScrollTrigger);
 
-        // A. Textos
         gsap.utils.toArray('.content-panel').forEach(panel => {
-            gsap.to(panel, {
-                opacity: 1, y: 0, duration: 0.5,
-                scrollTrigger: {
-                    trigger: panel.parentElement,
-                    start: "top 60%", end: "bottom 40%",
-                    toggleActions: "play reverse play reverse"
-                }
-            });
+            gsap.to(panel, { opacity: 1, y: 0, duration: 0.5, scrollTrigger: { trigger: panel.parentElement, start: "top 60%", end: "bottom 40%", toggleActions: "play reverse play reverse" } });
         });
 
-        // B. Timeline Maestra
-        // Importante: end: "bottom bottom" asegura que la animación dure todo el scroll
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#scroll-wrapper",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1.2, // Scrub ligeramente más bajo para mayor respuesta
-            }
-        });
+        // Timeline Maestra ajustada con scrub más suave para la sección larga
+        const tl = gsap.timeline({ scrollTrigger: { trigger: "#scroll-wrapper", start: "top top", end: "bottom bottom", scrub: 1.2 } });
 
-        // 0. ESTADO INICIAL (Definido en el setup JS, reforzamos aquí)
-        // Lata Izquierda (-2.2), Grande.
-
-        // 1. A PRODUCTO (Lata viaja a la DERECHA, se hace normal)
-        // Usamos distancias X más grandes (+2.8) para alejarla del texto
+        // 1. PRODUCTO
         tl.to(canGroup.position, { x: 2.8, y: 0, z: 1 }, 1)
           .to(canGroup.scale, { x: 1, y: 1, z: 1 }, 1)
           .to(canGroup.rotation, { x: 0.5, y: -0.8, z: 0 }, 1)
-          // APERTURA
           .to(lidGroup.rotation, { x: -Math.PI / 1.8 }, 1) 
           .to(lidGroup.position, { y: 1.0, z: -0.5 }, 1)
           .to(tabGroup.rotation, { x: -Math.PI / 3 }, 1);
 
-        // 2. A HISTAMINA (Lata viaja a la IZQUIERDA)
+        // 2. HISTAMINA
         tl.to(canGroup.position, { x: -2.8, y: 0, z: 1 }, 2)
           .to(canGroup.rotation, { x: 0, y: 0, z: 0 }, 2)
-          // CIERRE
           .to(lidGroup.rotation, { x: 0 }, 2)
           .to(lidGroup.position, { y: 0.48, z: 0 }, 2)
           .to(tabGroup.rotation, { x: 0 }, 2)
-          // COLOR ROJO
           .to(coloredLight, { intensity: 8 }, 2)
           .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 2);
 
-        // 3. A FEFO (Lata sale DERECHA, Rack entra IZQUIERDA)
-        // Mandamos la lata lejos (x: 6) para que no estorbe
+        // 3. FEFO
         tl.to(canGroup.position, { x: 6, y: 2 }, 3) 
-          .to(rackGroup.position, { x: -2.2, y: 0, z: -1 }, 3) // Rack a la Izquierda
-          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3); // Naranja
+          .to(rackGroup.position, { x: -2.2, y: 0, z: -1 }, 3)
+          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3);
 
-        // 4. A TRANSPORTE (Rack sale ARRIBA, Lata vuelve a la DERECHA)
+        // 4. TRANSPORTE
         tl.to(rackGroup.position, { y: 20 }, 4)
           .to(canGroup.position, { x: 2.8, y: 0, z: 0 }, 4)
-          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4); // Azul
+          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4);
 
-        // 5. FINAL (Lata CENTRO)
-        tl.to(canGroup.position, { x: 0, y: 0, z: 2.5 }, 5)
-          .to(canGroup.rotation, { x: Math.PI/2, y: 0, z: 0 }, 5)
-          .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }, 5); // Dorado
+        // 5. RIESGOS (NUEVA ESCENA)
+        // Lata se va lejos, luz morada
+        tl.to(canGroup.position, { x: 0, y: -10, z: -5 }, 5)
+          .to(coloredLight.color, { r: 0.8, g: 0.2, b: 1 }, 5);
+
+        // 6. FINAL - Ajuste el tiempo de inicio para dar espacio a la lectura de riesgos
+        tl.to(canGroup.position, { x: 0, y: 0, z: 2.5 }, 6.5) // Retrasado a 6.5 para dar más tiempo en sec 5
+          .to(canGroup.rotation, { x: Math.PI/2, y: 0, z: 0 }, 6.5)
+          .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }, 6.5);
 
         function animate() {
             requestAnimationFrame(animate);
-            if (!gsap.isTweening(canGroup.rotation)) {
-                canGroup.rotation.y += 0.002;
-            }
+            if (!gsap.isTweening(canGroup.rotation)) { canGroup.rotation.y += 0.002; }
             renderer.render(scene, camera);
         }
 
@@ -536,7 +616,6 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
         
-        // Puntos de navegación y estado
         const sections = document.querySelectorAll('.scroll-section');
         const dots = document.querySelectorAll('.dot');
         
@@ -544,29 +623,21 @@
              let current = '';
              const scrollY = window.scrollY;
              const h = window.innerHeight;
-             
-             sections.forEach((sec, i) => {
-                 const top = sec.offsetTop;
-                 if(scrollY >= top - h/3) current = i;
-             });
-             
-             dots.forEach((dot, i) => {
-                 if(i === current) dot.classList.add('active');
-                 else dot.classList.remove('active');
-             });
+             // Ajuste de detección para secciones variables
+             sections.forEach((sec, i) => { const top = sec.offsetTop; if(scrollY >= top - h/3) current = i; });
+             dots.forEach((dot, i) => { if(i === current) dot.classList.add('active'); else dot.classList.remove('active'); });
              
              const statusTxt = document.getElementById('status-text');
              const statusInd = document.getElementById('status-indicator');
              if(current === 2) { 
-                 statusTxt.innerText = "ALERTA TÉRMICA";
-                 statusTxt.style.color = "#ff453a";
-                 statusInd.classList.remove('bg-brand-blue');
-                 statusInd.classList.add('bg-brand-red');
+                 statusTxt.innerText = "ALERTA TÉRMICA"; statusTxt.style.color = "#ff453a";
+                 statusInd.classList.remove('bg-brand-blue'); statusInd.classList.add('bg-brand-red');
+             } else if (current === 5) {
+                 statusTxt.innerText = "RIESGO DETECTADO"; statusTxt.style.color = "#bf5af2";
+                 statusInd.classList.remove('bg-brand-blue', 'bg-brand-red'); statusInd.classList.add('bg-purple-500');
              } else {
-                 statusTxt.innerText = "ONLINE";
-                 statusTxt.style.color = "#fff";
-                 statusInd.classList.add('bg-brand-blue');
-                 statusInd.classList.remove('bg-brand-red');
+                 statusTxt.innerText = "ONLINE"; statusTxt.style.color = "#fff";
+                 statusInd.classList.add('bg-brand-blue'); statusInd.classList.remove('bg-brand-red', 'bg-purple-500');
              }
         });
 
@@ -580,11 +651,7 @@
                 }, 800);
             }, 1000);
         };
-
-        window.scrollToSec = (idx) => {
-            const sec = document.getElementById(`sec-${idx}`);
-            window.scrollTo({ top: sec.offsetTop, behavior: 'smooth' });
-        }
+        window.scrollToSec = (idx) => { const sec = document.getElementById(`sec-${idx}`); window.scrollTo({ top: sec.offsetTop, behavior: 'smooth' }); }
     </script>
 </body>
 </html>
