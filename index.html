@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logística del Atún | Informe Técnico</title>
+    <title>Entorno Logístico | Informe Técnico</title>
     
     <!-- Fuentes Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +45,7 @@
             pointer-events: none;
         }
 
-        /* Paneles de Texto - Inicialmente ocultos para ser animados por JS */
+        /* Paneles de Texto */
         .content-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -55,8 +55,8 @@
             padding: 2.5rem;
             border-radius: 0 1rem 1rem 0;
             max-width: 550px;
-            opacity: 0; /* Controlado por GSAP */
-            transform: translateY(30px); /* Controlado por GSAP */
+            opacity: 0; 
+            transform: translateY(30px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
         
@@ -93,9 +93,9 @@
             display: flex;
             align-items: center;
             padding: 0 5%;
-            pointer-events: none; /* Dejar pasar eventos al canvas si no hay texto */
+            pointer-events: none; 
         }
-        .scroll-section > * { pointer-events: auto; } /* Reactivar eventos en el panel */
+        .scroll-section > * { pointer-events: auto; }
 
         /* Navegación */
         .nav-dots {
@@ -125,13 +125,13 @@
 
     <!-- Pantalla de Carga -->
     <div id="loader" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
-        <div class="font-display font-bold text-5xl tracking-tighter text-white mb-4">SMART<span class="text-brand-blue">TUNA</span></div>
+        <div class="font-display font-bold text-5xl tracking-tighter text-white mb-4">LOGÍSTICA<span class="text-brand-blue">ATÚN</span></div>
         <div class="flex gap-2 items-center">
             <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce"></div>
             <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-100"></div>
             <div class="w-2 h-2 bg-brand-blue rounded-full animate-bounce delay-200"></div>
         </div>
-        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Entorno 3D...</div>
+        <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Informe...</div>
     </div>
 
     <!-- Canvas 3D -->
@@ -140,11 +140,11 @@
     <!-- Encabezado Fijo -->
     <div class="fixed top-0 w-full p-6 z-40 flex justify-between items-start pointer-events-none mix-blend-plus-lighter">
         <div>
-            <div class="text-[10px] font-mono text-brand-blue mb-1 border border-brand-blue/30 inline-block px-2 py-0.5 rounded backdrop-blur-md">INFORME TÉCNICO 2025</div>
-            <div class="text-xl font-bold text-white tracking-tight">Logística Integral de Enlatados</div>
+            <div class="text-[10px] font-mono text-brand-blue mb-1 border border-brand-blue/30 inline-block px-2 py-0.5 rounded backdrop-blur-md">INFORME 2025</div>
+            <div class="text-xl font-bold text-white tracking-tight">Entorno logístico de enlatados</div>
         </div>
         <div class="hidden md:block text-right">
-             <div class="text-[10px] font-mono text-gray-500 mb-1">ESTADO OPERATIVO</div>
+             <div class="text-[10px] font-mono text-gray-500 mb-1">ESTADO</div>
              <div class="flex items-center justify-end gap-2">
                  <span id="status-indicator" class="w-2 h-2 bg-brand-blue rounded-full animate-pulse shadow-[0_0_10px_#2997ff]"></span>
                  <span id="status-text" class="text-xs font-bold text-white tracking-wider">ONLINE</span>
@@ -174,10 +174,13 @@
                 <p class="text-lg">
                     El atún enlatado aparenta simplicidad, pero es el resultado de una orquestación logística compleja que desafía la biología, la termodinámica y las distancias globales.
                 </p>
-                <div class="mt-8 flex items-center gap-6 border-t border-white/10 pt-6">
-                     <div class="text-xs text-gray-400">AUTORES<br><strong class="text-white text-sm">Ingeniería Industrial</strong></div>
-                     <div class="h-8 w-[1px] bg-white/20"></div>
-                     <div class="text-xs text-gray-400">UNIVERSIDAD<br><strong class="text-white text-sm">Del Atlántico</strong></div>
+                <div class="mt-8 pt-6 border-t border-white/10">
+                     <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mb-2">Autores</div>
+                     <ul class="text-sm text-white space-y-1 font-medium">
+                         <li>Alberto Mercado</li>
+                         <li>Marolin Pumarejo</li>
+                         <li>Juan Quintero</li>
+                     </ul>
                 </div>
             </div>
         </section>
@@ -416,98 +419,54 @@
         const meat = new THREE.Mesh(new THREE.CylinderGeometry(0.97, 0.97, 0.9, 32), meatMat);
         meat.visible = true; // Siempre visible, la etiqueta lo cubre
 
-        // ETIQUETA PELABLE (Lógica corregida de main.html)
-        // Usamos PlaneGeometry curvado manualmente para tener control total de vértices
-        // CylinderGeometry es difícil de desenrollar. Usaremos un plano con muchos segmentos y lo enrollamos.
+        // ETIQUETA PELABLE
         const segW = 80; const segH = 10;
         const labelGeo = new THREE.PlaneGeometry(Math.PI * 2.05, 0.9, segW, segH);
         const labelMat = new THREE.MeshStandardMaterial({ 
             map: createHoloLabel(), 
             transparent: true, 
-            side: THREE.DoubleSide, // Importante para ver el reverso al pelar
+            side: THREE.DoubleSide, 
             roughness: 0.4,
             metalness: 0.2
         });
         const labelMesh = new THREE.Mesh(labelGeo, labelMat);
         
-        // Función para enrollar el plano en un cilindro y aplicar pelado
-        // val: 0.0 (cerrado) a 1.0 (pelado)
         function deformLabel(val) {
             const pos = labelGeo.attributes.position;
-            const radius = 1.01; // Un poco más grande que la lata
-            
-            // Definimos el punto de corte para el efecto de pelado
-            // A medida que val aumenta, más vértices se ven afectados
-            // Usamos un ángulo de referencia.
+            const radius = 1.01;
             
             for(let i=0; i < pos.count; i++) {
-                // Recuperamos coordenadas UV originales (suponiendo plano estándar centrado en 0)
-                // PlaneGeometry crea width a lo largo de X.
-                // X original va de -PI a +PI aprox.
-                
-                // Necesitamos el índice de columna para saber el ángulo original
-                // width segments = 80. stride = 81 vertices per row.
                 const col = i % (segW + 1);
-                const row = Math.floor(i / (segW + 1));
-                
-                // Normalizamos col de 0 a 1
                 const u = col / segW;
-                
-                // Ángulo alrededor del cilindro (cubriendo 360 grados + un poco de solape)
                 const angle = u * Math.PI * 2; 
                 
-                // Coordenadas base cilíndricas
                 let x = Math.sin(angle) * radius;
                 let z = Math.cos(angle) * radius;
-                let y = pos.getY(i); // Altura original se mantiene base
+                let y = pos.getY(i);
                 
-                // LÓGICA DE PELADO
-                // El pelado empieza en un ángulo específico (digamos cerca de 0 o 2PI)
-                // y progresa hacia atrás.
-                
-                // Umbral de pelado basado en 'val'
-                // Si val = 0, peelAngle = 0. Si val = 1, peelAngle = PI (medio cilindro pelado)
                 const peelExtent = Math.PI * 1.2; 
                 const currentPeelAngle = val * peelExtent;
                 
-                // Definimos la "costura" donde empieza a abrirse. Digamos angle = 0.
-                // Si el ángulo del vértice es menor que el ángulo de pelado actual, lo deformamos.
-                
                 if (angle < currentPeelAngle) {
-                    // Este vértice está en la zona pelada.
-                    // Lo proyectamos hacia afuera tangencialmente.
-                    
                     const distFromPeelPoint = currentPeelAngle - angle;
+                    const peelOut = distFromPeelPoint * 1.5; 
+                    const peelCurl = distFromPeelPoint * 1.0;
                     
-                    // Curvatura hacia afuera
-                    const peelOut = distFromPeelPoint * 1.5; // Qué tanto se aleja
-                    const peelCurl = distFromPeelPoint * 1.0; // Qué tanto se curva
-                    
-                    // Nueva posición: Desplazamos desde el punto de "bisagra" (currentPeelAngle)
-                    // Bisagra x,z
                     const hingeX = Math.sin(currentPeelAngle) * radius;
                     const hingeZ = Math.cos(currentPeelAngle) * radius;
                     
-                    // Dirección tangente hacia afuera
                     const tanX = Math.cos(currentPeelAngle);
                     const tanZ = -Math.sin(currentPeelAngle);
                     
-                    // Aplicamos desplazamiento
                     x = hingeX + (tanX * peelOut) + (Math.sin(peelCurl) * 0.5);
                     z = hingeZ + (tanZ * peelOut) + (Math.cos(peelCurl) * 0.5);
-                    
-                    // Ligera torsión en Y para realismo
                     y += Math.sin(peelCurl) * 0.2 * val; 
                 }
-                
-                // Escribir nuevos valores
                 pos.setXYZ(i, x, y, z);
             }
             pos.needsUpdate = true;
             labelGeo.computeVertexNormals();
         }
-
-        // Inicializar etiqueta cerrada
         deformLabel(0);
 
         canGroup.add(canBody, rimTop, rimBot, lid, tabGroup, meat, labelMesh);
@@ -515,19 +474,16 @@
 
         // 2. EL RACK (Estantería FIFO)
         const rackGroup = new THREE.Group();
-        const rackMat = new THREE.MeshStandardMaterial({ color: 0xe67e22, roughness: 0.7 }); // Naranja industrial
+        const rackMat = new THREE.MeshStandardMaterial({ color: 0xe67e22, roughness: 0.7 }); 
         
-        // Postes
         const postGeo = new THREE.BoxGeometry(0.15, 6, 0.15);
         const p1 = new THREE.Mesh(postGeo, rackMat); p1.position.set(-2, 0, -1);
         const p2 = new THREE.Mesh(postGeo, rackMat); p2.position.set(2, 0, -1);
         
-        // Vigas
         const beamGeo = new THREE.BoxGeometry(4.2, 0.1, 0.1);
         const b1 = new THREE.Mesh(beamGeo, rackMat); b1.position.set(0, -1, -1);
         const b2 = new THREE.Mesh(beamGeo, rackMat); b2.position.set(0, 1, -1);
         
-        // Cajas
         const boxGeo = new THREE.BoxGeometry(0.8, 0.6, 0.8);
         const boxMat = new THREE.MeshStandardMaterial({ color: 0x8d6e63 });
         const box1 = new THREE.Mesh(boxGeo, boxMat); box1.position.set(-1.2, -0.65, -1);
@@ -535,9 +491,8 @@
         const box3 = new THREE.Mesh(boxGeo, boxMat); box3.position.set(1.2, -0.65, -1);
         
         rackGroup.add(p1, p2, b1, b2, box1, box2, box3);
-        rackGroup.position.set(0, -10, -3); // Escondido inicialmente
+        rackGroup.position.set(0, -10, -3); // Inicialmente abajo
         mainGroup.add(rackGroup);
-
 
         // --- 4. ILUMINACIÓN ---
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
@@ -548,48 +503,42 @@
         spotLight.castShadow = true;
         scene.add(spotLight);
 
-        const coloredLight = new THREE.PointLight(0x2997ff, 0, 10); // Empieza apagada
+        const coloredLight = new THREE.PointLight(0x2997ff, 0, 10);
         coloredLight.position.set(-3, 2, 2);
         scene.add(coloredLight);
-
 
         // --- 5. ANIMACIONES (GSAP + ScrollTrigger) ---
         gsap.registerPlugin(ScrollTrigger);
 
-        // A. Animación de Paneles de Texto (Aparición suave)
+        // UI Animaciones
         gsap.utils.toArray('.content-panel').forEach(panel => {
             gsap.to(panel, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
+                opacity: 1, y: 0, duration: 1,
                 scrollTrigger: {
-                    trigger: panel.parentElement, // La sección contenedora
-                    start: "top 60%", // Empieza cuando la sección está al 60% de la pantalla
-                    end: "bottom 40%",
+                    trigger: panel.parentElement,
+                    start: "top 60%", end: "bottom 40%",
                     toggleActions: "play reverse play reverse"
                 }
             });
         });
 
-        // B. Animación de Navegación (Dots)
         document.querySelectorAll('.scroll-section').forEach((sec, i) => {
             ScrollTrigger.create({
-                trigger: sec,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => updateDots(i),
-                onEnterBack: () => updateDots(i)
+                trigger: sec, start: "top center", end: "bottom center",
+                onEnter: () => updateDots(i), onEnterBack: () => updateDots(i)
             });
         });
 
         function updateDots(idx) {
             document.querySelectorAll('.dot').forEach((d, i) => {
-                if (i === idx) d.classList.add('active');
-                else d.classList.remove('active');
+                if (i === idx) d.classList.add('active'); else d.classList.remove('active');
             });
         }
 
-        // C. ANIMACIÓN 3D MAESTRA
+        // --- LÓGICA DE ANIMACIÓN 3D CORREGIDA (State Management) ---
+        // Usamos .fromTo en cada sección para garantizar que el estado sea determinista
+        // al entrar y salir, evitando que se "arrastren" propiedades al hacer scroll inverso.
+
         // TL0: Intro -> Producto
         gsap.timeline({
             scrollTrigger: { trigger: "#sec-0", start: "top top", end: "bottom top", scrub: 1 }
@@ -603,11 +552,12 @@
         gsap.timeline({
             scrollTrigger: { trigger: "#sec-1", start: "top top", end: "bottom top", scrub: 1 }
         })
-        .to(peelObj, { 
+        .fromTo(peelObj, { val: 0 }, { 
             val: 1, 
-            onUpdate: () => deformLabel(peelObj.val) // Aquí llamamos la función corregida
+            onUpdate: () => deformLabel(peelObj.val),
+            immediateRender: false
         })
-        .to(canGroup.rotation, { y: -2 }, "<"); // Rotar para ver mejor el pelado
+        .to(canGroup.rotation, { y: -2 }, "<");
 
         // TL2: Histamina / Alerta Roja (Sección 2)
         gsap.timeline({
@@ -626,38 +576,38 @@
                 }
             }
         })
-        .to(peelObj, { val: 0, onUpdate: () => deformLabel(peelObj.val) }) // Cerrar etiqueta
-        .to(canGroup.position, { x: 0 })
-        .to(coloredLight, { intensity: 8 }) // Encender luz
-        .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }); // Rojo
+        .fromTo(peelObj, { val: 1 }, { val: 0, onUpdate: () => deformLabel(peelObj.val), immediateRender: false }) // Cierra etiqueta explícitamente
+        .fromTo(canGroup.position, { x: -1.5 }, { x: 0, immediateRender: false })
+        .fromTo(coloredLight, { intensity: 0 }, { intensity: 8, immediateRender: false })
+        .fromTo(coloredLight.color, { r: 0, g: 0, b: 0 }, { r: 1, g: 0.2, b: 0.2, immediateRender: false });
 
         // TL3: Rack FIFO (Sección 3)
         gsap.timeline({
             scrollTrigger: { trigger: "#sec-3", start: "top top", end: "bottom top", scrub: 1 }
         })
-        .to(canGroup.position, { x: 1.5, y: 0.5, z: 1 })
-        .to(canGroup.scale, { x: 0.7, y: 0.7, z: 0.7 })
-        .to(rackGroup.position, { y: 0 }) // Rack sube desde abajo
-        .to(coloredLight.color, { r: 1, g: 0.6, b: 0.0 }); // Naranja
+        .fromTo(canGroup.position, { x: 0, y: 0, z: 0 }, { x: 1.5, y: 0.5, z: 1, immediateRender: false })
+        .fromTo(canGroup.scale, { x: 1, y: 1, z: 1 }, { x: 0.7, y: 0.7, z: 0.7, immediateRender: false })
+        .fromTo(rackGroup.position, { y: -10 }, { y: 0, immediateRender: false }) // Rack sube desde abajo
+        .fromTo(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, { r: 1, g: 0.6, b: 0.0, immediateRender: false }); // A Naranja
 
         // TL4: Contenedor (Sección 4)
         gsap.timeline({
             scrollTrigger: { trigger: "#sec-4", start: "top top", end: "bottom top", scrub: 1 }
         })
-        .to(rackGroup.position, { y: 8 }) // Rack se va arriba
-        .to(canGroup.scale, { x: 1, y: 1, z: 1 })
-        .to(canGroup.position, { x: -1.5, y: 0, z: 0 })
-        .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }); // Azul
+        .fromTo(rackGroup.position, { y: 0 }, { y: 8, immediateRender: false }) // Rack se va arriba
+        .fromTo(canGroup.scale, { x: 0.7, y: 0.7, z: 0.7 }, { x: 1, y: 1, z: 1, immediateRender: false })
+        .fromTo(canGroup.position, { x: 1.5, y: 0.5, z: 1 }, { x: -1.5, y: 0, z: 0, immediateRender: false })
+        .fromTo(coloredLight.color, { r: 1, g: 0.6, b: 0.0 }, { r: 0.2, g: 0.5, b: 1, immediateRender: false }); // A Azul
 
         // TL5: Final (Sección 5)
         gsap.timeline({
             scrollTrigger: { trigger: "#sec-5", start: "top top", end: "bottom top", scrub: 1 }
         })
-        .to(canGroup.position, { x: 0, z: 2 })
-        .to(canGroup.rotation, { x: Math.PI/2, y: 0 }) // Vista cenital de la tapa
-        .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }); // Dorado
+        .fromTo(canGroup.position, { x: -1.5, z: 0 }, { x: 0, z: 2, immediateRender: false })
+        .fromTo(canGroup.rotation, { x: 0, y: -2 }, { x: Math.PI/2, y: 0, immediateRender: false })
+        .fromTo(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, { r: 1, g: 0.8, b: 0.2, immediateRender: false }); // A Dorado
 
-        // Rotación pasiva
+        // Rotación pasiva constante
         function animate() {
             requestAnimationFrame(animate);
             if(!gsap.isTweening(canGroup.rotation)) {
@@ -680,7 +630,6 @@
                 setTimeout(() => {
                     loader.style.display = 'none';
                     animate();
-                    // Refrescar ScrollTrigger para asegurar posiciones
                     ScrollTrigger.refresh();
                 }, 800);
             }, 1500);
