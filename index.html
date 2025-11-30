@@ -173,7 +173,7 @@
 <body>
 
     <div id="loader" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
-        <div class="font-display font-bold text-5xl tracking-tighter text-white mb-4">LOGÍSTICA<span class="text-brand-blue">ATÚN</span></div>
+        <div class="font-display font-bold text-3xl md:text-5xl tracking-tighter text-white mb-4 text-center px-4 leading-tight">ENTORNO LOGÍSTICO <br><span class="text-brand-blue">DEL SECTOR DE ENLATADOS</span></div>
         <div class="mt-4 text-xs font-mono text-gray-500 tracking-widest uppercase">Cargando Recursos...</div>
     </div>
 
@@ -614,53 +614,55 @@
             gsap.to(panel, { opacity: 1, y: 0, duration: 0.5, scrollTrigger: { trigger: panel.parentElement, start: "top 60%", end: "bottom 40%", toggleActions: "play reverse play reverse" } });
         });
 
+        // Scrub ligeramente más bajo (1.2) para que la lata reaccione antes al scroll
         const tl = gsap.timeline({ scrollTrigger: { trigger: "#scroll-wrapper", start: "top top", end: "bottom bottom", scrub: 1.2 } });
         const peelObj = { val: 0 };
 
         // 1. PRODUCTO (Lata Abre + Etiqueta Pela Parcialmente)
-        tl.to(canGroup.position, { x: 2.8, y: 0, z: 1 }, 1) 
-          .to(canGroup.scale, { x: 1, y: 1, z: 1 }, 1)
-          .to(canGroup.rotation, { x: 0.5, y: -0.5, z: 0 }, 1) 
-          .to(lidGroup.rotation, { x: -Math.PI / 1.5 }, 1) // Open Lid
-          .to(lidGroup.position, { y: 1.2, z: -0.5 }, 1)
-          .to(peelObj, { val: 0.4, onUpdate: () => updateLabel(peelObj.val) }, 1); // Start peel
+        // Posicionamiento "Adelantado": La lata llega a su destino antes de lo habitual
+        tl.to(canGroup.position, { x: 2.8, y: 0, z: 1 }, 0.6) 
+          .to(canGroup.scale, { x: 1, y: 1, z: 1 }, 0.6)
+          .to(canGroup.rotation, { x: 0.5, y: -0.5, z: 0 }, 0.6) 
+          .to(lidGroup.rotation, { x: -Math.PI / 1.5 }, 0.6) // Open Lid
+          .to(lidGroup.position, { y: 1.2, z: -0.5 }, 0.6)
+          .to(peelObj, { val: 0.4, onUpdate: () => updateLabel(peelObj.val) }, 0.6); // Start peel
 
         // 2. HISTAMINA (Cierra Tapa, Pela Full, Roja)
-        tl.to(canGroup.position, { x: -2.8, y: 0, z: 1 }, 2) 
-          .to(lidGroup.rotation, { x: 0 }, 2) // Close Lid
-          .to(lidGroup.position, { y: 0.5, z: 0 }, 2)
-          .to(canGroup.rotation, { x: 0, y: 0, z: 0 }, 2)
-          .to(peelObj, { val: 0.8, onUpdate: () => updateLabel(peelObj.val) }, 2) // Full Peel
-          .to(coloredLight, { intensity: 8 }, 2)
-          .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 2)
-          .to(metalMat.emissive, { r: 0.5, g: 0, b: 0 }, 2);
+        tl.to(canGroup.position, { x: -2.8, y: 0, z: 1 }, 1.6) 
+          .to(lidGroup.rotation, { x: 0 }, 1.6) // Close Lid
+          .to(lidGroup.position, { y: 0.5, z: 0 }, 1.6)
+          .to(canGroup.rotation, { x: 0, y: 0, z: 0 }, 1.6)
+          .to(peelObj, { val: 0.8, onUpdate: () => updateLabel(peelObj.val) }, 1.6) // Full Peel
+          .to(coloredLight, { intensity: 8 }, 1.6)
+          .to(coloredLight.color, { r: 1, g: 0.2, b: 0.2 }, 1.6)
+          .to(metalMat.emissive, { r: 0.5, g: 0, b: 0 }, 1.6);
 
         // 3. FEFO (Cierra Etiqueta, Rota a Rack)
-        tl.to(canGroup.position, { x: 2.8, y: 0.5, z: 0 }, 3) 
-          .to(peelObj, { val: 0, onUpdate: () => updateLabel(peelObj.val) }, 3) // Close Label Completely (Triggers reset)
-          .to(metalMat.emissive, { r: 0, g: 0, b: 0 }, 3) 
-          .to(canGroup.rotation, { z: Math.PI/2, y: 0, x: 0 }, 3) 
-          .to(rackGroup.position, { x: 2.5, y: 0, z: 0 }, 3) 
-          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3); 
+        tl.to(canGroup.position, { x: 2.8, y: 0.5, z: 0 }, 3.0) 
+          .to(peelObj, { val: 0, onUpdate: () => updateLabel(peelObj.val) }, 3.0) // Close Label Completely (Triggers reset)
+          .to(metalMat.emissive, { r: 0, g: 0, b: 0 }, 3.0) 
+          .to(canGroup.rotation, { z: Math.PI/2, y: 0, x: 0 }, 3.0) 
+          .to(rackGroup.position, { x: 2.5, y: 0, z: 0 }, 3.0) 
+          .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 3.0); 
 
         // 4. TRANSPORTE (Exploded View - v4 style)
-        tl.to(rackGroup.position, { y: 20 }, 4) 
-          .to(canGroup.position, { x: -2.0, y: 0, z: 0 }, 4) 
-          .to(canGroup.rotation, { z: Math.PI/6, y: 0.5, x: 0.2 }, 4) 
+        tl.to(rackGroup.position, { y: 20 }, 3.6) 
+          .to(canGroup.position, { x: -2.0, y: 0, z: 0 }, 3.6) 
+          .to(canGroup.rotation, { z: Math.PI/6, y: 0.5, x: 0.2 }, 3.6) 
           // Explode - Separate Body and Lid
-          .to(lidGroup.position, { y: 1.5 }, 4)
-          .to(bodyGroup.position, { y: -0.5 }, 4)
-          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 4); 
+          .to(lidGroup.position, { y: 1.5 }, 3.6)
+          .to(bodyGroup.position, { y: -0.5 }, 3.6)
+          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 3.6); 
 
         // 5. RIESGOS (Hide Can)
-        tl.to(canGroup.position, { x: 0, y: -15, z: -5 }, 5)
-          .to(lidGroup.position, { y: 0.5 }, 5) 
-          .to(bodyGroup.position, { y: 0 }, 5);
+        tl.to(canGroup.position, { x: 0, y: -15, z: -5 }, 4.6)
+          .to(lidGroup.position, { y: 0.5 }, 4.6) 
+          .to(bodyGroup.position, { y: 0 }, 4.6);
 
         // 6. FINAL (Reset)
-        tl.to(canGroup.position, { x: 0, y: 0, z: 2.5 }, 6.5)
-          .to(canGroup.rotation, { x: 0.5, y: 0, z: 0 }, 6.5)
-          .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }, 6.5);
+        tl.to(canGroup.position, { x: 0, y: 0, z: 2.5 }, 5.6)
+          .to(canGroup.rotation, { x: 0.5, y: 0, z: 0 }, 5.6)
+          .to(coloredLight.color, { r: 1, g: 0.8, b: 0.2 }, 5.6);
 
         function animate() {
             requestAnimationFrame(animate);
