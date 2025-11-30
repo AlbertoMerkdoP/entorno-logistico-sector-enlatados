@@ -394,7 +394,7 @@
             </div>
         </section>
 
-        <!-- 5. SERVICIO AL CLIENTE (NUEVA SECCIÓN) -->
+        <!-- 5. SERVICIO AL CLIENTE -->
         <section class="scroll-section justify-center" id="sec-5">
             <div class="content-panel panel-center" style="--accent-color: #ffd700;">
                 <span class="text-xs font-mono text-yellow-400 tracking-widest uppercase mb-2 block">Excelencia Operativa</span>
@@ -471,10 +471,15 @@
                 <p class="mb-8">
                     La excelencia logística garantiza inocuidad, disponibilidad y calidad. El consumidor confía en la lata; la ingeniería asegura esa confianza.
                 </p>
-                <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="group relative px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-sm font-bold transition-all uppercase tracking-widest overflow-hidden">
-                    <span class="relative z-10 group-hover:text-brand-blue transition-colors">Reiniciar</span>
-                    <div class="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors"></div>
-                </button>
+                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/20 rounded-full text-sm font-bold transition-all uppercase tracking-widest">
+                        Reiniciar
+                    </button>
+                    <a href="https://drive.google.com/file/d/1miv8LjSiQCakWWkNznjojsBpJ7N4QIPc/view" target="_blank" class="px-8 py-3 bg-brand-blue/20 hover:bg-brand-blue/30 border border-brand-blue/50 text-brand-blue rounded-full text-sm font-bold transition-all uppercase tracking-widest flex items-center gap-2">
+                        Ver Informe Completo
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -599,6 +604,13 @@
                 x.beginPath(); 
                 x.ellipse(Math.random()*512, Math.random()*512, 1, 3, Math.random()*Math.PI, 0, Math.PI*2);
                 x.fill(); 
+            }
+            // Add some oil sheen details
+            for(let i=0; i<500; i++) {
+                x.fillStyle = 'rgba(255, 255, 200, 0.1)';
+                x.beginPath();
+                x.arc(Math.random()*512, Math.random()*512, Math.random()*20, 0, Math.PI*2);
+                x.fill();
             }
             return new THREE.CanvasTexture(c);
         }
@@ -781,15 +793,15 @@
         const boxGeo = new THREE.BoxGeometry(0.8, 0.6, 0.8);
         const boxMat = new THREE.MeshStandardMaterial({ color: 0x8d6e63 });
 
-        const rp1 = new THREE.Mesh(postGeo, rackMat); rp1.position.set(-2, 0, -1);
-        const rp2 = new THREE.Mesh(postGeo, rackMat); rp2.position.set(2, 0, -1);
-        const rshelf = new THREE.Mesh(shelfGeo, rackMat); rshelf.position.set(0, -0.65, -1);
+        const p1 = new THREE.Mesh(postGeo, rackMat); p1.position.set(-2, 0, -1);
+        const p2 = new THREE.Mesh(postGeo, rackMat); p2.position.set(2, 0, -1);
+        const shelf = new THREE.Mesh(shelfGeo, rackMat); shelf.position.set(0, -0.65, -1);
         
         const box1 = new THREE.Mesh(boxGeo, boxMat); box1.position.set(-1.2, -0.25, -1);
         const box2 = new THREE.Mesh(boxGeo, boxMat); box2.position.set(0, -0.25, -1);
         const box3 = new THREE.Mesh(boxGeo, boxMat); box3.position.set(1.2, -0.25, -1);
 
-        rackGroup.add(rp1, rp2, rshelf, box1, box2, box3); 
+        rackGroup.add(p1, p2, shelf, box1, box2, box3); 
         rackGroup.position.set(0, -20, 0); 
         mainGroup.add(rackGroup);
 
@@ -835,12 +847,13 @@
           .to(coloredLight.color, { r: 1, g: 0.6, b: 0 }, 2.2); 
 
         // 4. TRANSPORTE (New: Pallet + Container)
-        tl.to(rackGroup.position, { y: -20 }, 3.2) // Hide Rack
-          .to(palletGroup.position, { x: -2.0, y: -1, z: 0 }, 3.2) // Show Pallet Left
-          .to(canGroup.position, { x: -2.0, y: 0.2, z: 0 }, 3.2) // Can on Pallet
-          .to(canGroup.rotation, { z: 0, y: 0, x: 0 }, 3.2) // Reset Can rotation to upright
-          .to(containerGroup.position, { x: -2.0, y: -1, z: 0 }, 3.2) // Show Container around
-          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 3.2); // Blue Light
+        // ** Adjusted from 3.6 to 3.8 as requested **
+        tl.to(rackGroup.position, { y: -20 }, 3.7) // Hide Rack
+          .to(palletGroup.position, { x: -2.0, y: -1, z: 0 }, 3.7) // Show Pallet Left
+          .to(canGroup.position, { x: -2.0, y: 0.2, z: 0 }, 3.7) // Can on Pallet
+          .to(canGroup.rotation, { z: 0, y: 0, x: 0 }, 3.7) // Reset Can rotation to upright
+          .to(containerGroup.position, { x: -2.0, y: -1, z: 0 }, 3.7) // Show Container around
+          .to(coloredLight.color, { r: 0.2, g: 0.5, b: 1 }, 3.7); // Blue Light
 
         // 5. SERVICIO AL CLIENTE (NUEVA ESCENA)
         // Lata al centro, flotando, iluminada en dorado
@@ -886,7 +899,7 @@
              if(current === 2) { 
                  statusTxt.innerText = "ALERTA TÉRMICA"; statusTxt.style.color = "#ff453a";
                  statusInd.classList.remove('bg-brand-blue'); statusInd.classList.add('bg-brand-red');
-             } else if (current === 6) { // Ajustado a índice 6 (Riesgos)
+             } else if (current === 6) { 
                  statusTxt.innerText = "RIESGO DETECTADO"; statusTxt.style.color = "#bf5af2";
                  statusInd.classList.remove('bg-brand-blue', 'bg-brand-red'); statusInd.classList.add('bg-purple-500');
              } else {
